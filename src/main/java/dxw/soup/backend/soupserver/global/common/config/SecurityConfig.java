@@ -2,6 +2,9 @@ package dxw.soup.backend.soupserver.global.common.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dxw.soup.backend.soupserver.global.common.auth.filter.TokenAuthenticationFilter;
+import dxw.soup.backend.soupserver.global.common.auth.oauth.handler.OAuth2AuthenticationFailureHandler;
+import dxw.soup.backend.soupserver.global.common.auth.oauth.handler.OAuth2AuthenticationSuccessHandler;
+import dxw.soup.backend.soupserver.global.common.auth.service.CustomOAuth2UserService;
 import dxw.soup.backend.soupserver.global.common.auth.service.TokenProvider;
 import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
@@ -22,18 +25,31 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private static final String[] WHITELIST_PATH = {"/health-check"};
-
     @Value("${cors.allowed-origins}")
     private String[] allowedOrigins;
-
+    private static final String[] WHITELIST_PATH = {"/health-check"};
+    private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
+    private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
+    private final CustomOAuth2UserService customOAuth2UserService;
     private final TokenProvider tokenProvider;
-
     private final ObjectMapper objectMapper;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+                .oauth2Login(oauth2 -> oauth2
+                        .authorizationEndpoint(authorization -> authorization
+                                .baseUri("/oauth2/authorization")
+                        )
+                        .redirectionEndpoint(redirection -> redirection
+                                .baseUri("/*/oauth2/code/*")
+                        )
+                        .userInfoEndpoint(userInfo -> userInfo
+                                .userService(customOAuth2UserService)
+                        )
+                        .successHandler(oAuth2AuthenticationSuccessHandler)
+                        .failureHandler(oAuth2AuthenticationFailureHandler)
+                )
                 .cors((cors) -> cors.configurationSource(apiConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
