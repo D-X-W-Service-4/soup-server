@@ -22,6 +22,6 @@ public class UserPrincipalService implements UserDetailsService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ApiException(UserErrorCode.USER_NOT_FOUND));
 
-        return UserPrincipal.from(user);
+        return UserPrincipal.fromEntity(user);
     }
 }
