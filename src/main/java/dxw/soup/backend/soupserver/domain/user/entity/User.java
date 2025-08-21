@@ -1,8 +1,11 @@
 package dxw.soup.backend.soupserver.domain.user.entity;
 
+import dxw.soup.backend.soupserver.global.common.auth.oauth.OAuth2Provider;
 import dxw.soup.backend.soupserver.global.common.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,4 +30,14 @@ public class User extends BaseTimeEntity {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "social_provider", nullable = false)
+    private OAuth2Provider socialProvider;
+
+    @Column(name = "social_id", nullable = false, unique = true)
+    private String socialId;
+
+    @Column(unique = true)
+    private String nickname;
 }
