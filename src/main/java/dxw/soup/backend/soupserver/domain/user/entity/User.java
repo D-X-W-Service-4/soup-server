@@ -1,5 +1,8 @@
 package dxw.soup.backend.soupserver.domain.user.entity;
 
+import dxw.soup.backend.soupserver.domain.question.entity.SubjectUnit;
+import dxw.soup.backend.soupserver.domain.user.enums.Grade;
+import dxw.soup.backend.soupserver.domain.user.enums.Soup;
 import dxw.soup.backend.soupserver.global.common.auth.oauth.OAuth2Provider;
 import dxw.soup.backend.soupserver.global.common.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
@@ -9,6 +12,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -40,4 +45,25 @@ public class User extends BaseTimeEntity {
 
     @Column(unique = true)
     private String nickname;
+
+    @ManyToOne
+    @JoinColumn(name = "last_subject_unit_id")
+    private SubjectUnit lastSubjectUnit;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Grade grade;
+
+    @Column(nullable = false)
+    private Integer term;
+
+    @Column(name = "study_hours", nullable = false)
+    private Double studyHours;
+
+    //콤마(,)로 구분
+    private String workbooks;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Soup soup;
 }
