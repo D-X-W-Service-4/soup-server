@@ -1,9 +1,12 @@
 package dxw.soup.backend.soupserver.domain.planner.entity;
 
+import dxw.soup.backend.soupserver.domain.planner.enums.PlannerFeedback;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
 import dxw.soup.backend.soupserver.global.common.entity.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,4 +37,7 @@ public class Planner extends BaseTimeEntity {
 
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private boolean flame;
+
+    @Enumerated(EnumType.STRING)
+    private PlannerFeedback feedback;
 }
