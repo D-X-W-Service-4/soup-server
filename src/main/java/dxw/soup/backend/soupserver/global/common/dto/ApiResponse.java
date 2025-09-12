@@ -13,6 +13,14 @@ public record ApiResponse<T>(
         @JsonInclude(value = JsonInclude.Include.NON_NULL)
         T data
 ) {
+    public static ApiResponse<?> ok() {
+        return success(SuccessCode.OK);
+    }
+
+    public static <T> ApiResponse<T> ok(final T data) {
+        return success(SuccessCode.OK, data);
+    }
+
     public static <T> ApiResponse<T> success(final SuccessCode successCode) {
         return new ApiResponse<>(successCode.getStatus().value(), SuccessCode.CODE, SuccessCode.MESSAGE, null);
     }
