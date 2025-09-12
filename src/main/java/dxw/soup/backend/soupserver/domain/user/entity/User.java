@@ -50,20 +50,35 @@ public class User extends BaseTimeEntity {
     @JoinColumn(name = "last_subject_unit_id")
     private SubjectUnit lastSubjectUnit;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Grade grade;
 
-    @Column(nullable = false)
     private Integer term;
 
-    @Column(name = "study_hours", nullable = false)
+    @Column(name = "study_hours")
     private Double studyHours;
 
     //콤마(,)로 구분
     private String workbooks;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Soup soup;
+
+    public void register(
+            Grade grade,
+            Integer term,
+            SubjectUnit lastSubjectUnit,
+            Double studyHours,
+            String workbooks
+    ) {
+        this.grade = grade;
+        this.term = term;
+        this.lastSubjectUnit = lastSubjectUnit;
+        this.studyHours = studyHours;
+        this.workbooks = workbooks;
+    }
+
+    public void updateNickname(String nickname) {
+        this.nickname = nickname;
+    }
 }
