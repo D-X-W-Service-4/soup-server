@@ -1,0 +1,24 @@
+### 헬스 체크
+GET http://localhost:8080/health-check
+
+### 회원 가입
+POST http://localhost:8080/v1/users/sign-up
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+
+{
+  "grade": "M1",
+  "term": 1,
+  "lastSubjectUnitId": 1,
+  "studyHours": 1.0,
+  "workbooks": ["쎈 중등수학 1-1"]
+}
+
+### 닉네임 변경
+PATCH http://localhost:8080/v1/users/me/nickname
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+
+{
+  "nickname": "황수민"
+}
