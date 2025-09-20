@@ -32,4 +32,8 @@ public class UserService {
 
         user.updateNickname(nickname);
     }
+
+    public void getUserInfo() {
+
+    }
 }
