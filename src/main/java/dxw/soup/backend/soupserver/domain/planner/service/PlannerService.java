@@ -54,6 +54,12 @@ public class PlannerService {
         plannerRepository.delete(planner);
     }
 
+    @Transactional
+    public void updateFeedback(Long userId, Long plannerId, PlannerFeedback feedback) {
+        Planner planner = findPlannerByIdAndUserId(userId, plannerId);
+        planner.updateFeedback(feedback);
+    }
+
     private Planner findPlannerByIdAndUserId(Long userId, Long plannerId) {
         Planner planner = plannerRepository.findById(plannerId)
                 .orElseThrow(() -> new ApiException(PlannerErrorCode.PLANNER_NOT_FOUND));
@@ -64,4 +70,5 @@ public class PlannerService {
 
         return planner;
     }
+
 }

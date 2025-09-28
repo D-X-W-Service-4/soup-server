@@ -39,4 +39,14 @@ public class PlannerController {
         plannerService.deletePlanner(principal.getUserId(), plannerId);
         return ApiResponse.ok();
     }
+
+    @PatchMapping("/{plannerId}/feedback")
+    public ApiResponse<?> updatePlannerFeedback(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable Long plannerId,
+            @Valid @RequestBody PlannerFeedbackRequest request
+    ) {
+        plannerService.updateFeedback(principal.getUserId(), plannerId, request.feedback());
+        return ApiResponse.ok();
+    }
 }
