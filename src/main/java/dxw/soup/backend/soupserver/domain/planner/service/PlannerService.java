@@ -60,6 +60,18 @@ public class PlannerService {
         planner.updateFeedback(feedback);
     }
 
+    @Transactional
+    public void updatePlannerItemCheck(Long userId, Long plannerItemId, boolean checked) {
+        PlannerItem plannerItem = plannerItemRepository.findById(plannerItemId)
+                .orElseThrow(() -> new ApiException(PlannerErrorCode.PLANNER_ITEM_NOT_FOUND));
+
+        if (!plannerItem.getPlanner().getUser().getId().equals(userId)) {
+            throw new ApiException(PlannerErrorCode.PLANNER_ACCESS_DENIED);
+        }
+
+        plannerItem.updateChecked(checked);
+    }
+
     private Planner findPlannerByIdAndUserId(Long userId, Long plannerId) {
         Planner planner = plannerRepository.findById(plannerId)
                 .orElseThrow(() -> new ApiException(PlannerErrorCode.PLANNER_NOT_FOUND));

@@ -49,4 +49,14 @@ public class PlannerController {
         plannerService.updateFeedback(principal.getUserId(), plannerId, request.feedback());
         return ApiResponse.ok();
     }
+
+    @PatchMapping("/items/{plannerItemId}/check")
+    public ApiResponse<?> updatePlannerItemCheck(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable Long plannerItemId,
+            @Valid @RequestBody PlannerItemCheckRequest request
+    ) {
+        plannerService.updatePlannerItemCheck(principal.getUserId(), plannerItemId, request.checked());
+        return ApiResponse.ok();
+    }
 }
