@@ -68,4 +68,14 @@ public class PlannerController {
         PlannerResponse response = plannerService.getPlannerByDate(principal.getUserId(), date);
         return ApiResponse.ok(response);
     }
+
+    @GetMapping("/flames")
+    public ApiResponse<PlannerFlameResponse> getPlannerFlames(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @RequestParam LocalDate startDate,
+            @RequestParam LocalDate endDate
+    ) {
+        PlannerFlameResponse response = PlannerFlameResponse.of(plannerService.getPlannerFlames(principal.getUserId(), startDate, endDate));
+        return ApiResponse.ok(response);
+    }
 }

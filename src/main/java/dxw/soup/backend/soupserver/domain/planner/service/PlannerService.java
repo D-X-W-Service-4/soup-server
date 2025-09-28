@@ -94,4 +94,11 @@ public class PlannerService {
 
         return PlannerResponse.from(planner, itemDto);
     }
+
+    public List<PlannerFlameItem> getPlannerFlames(Long userId, LocalDate startDate, LocalDate endDate) {
+        List<Planner> planners = plannerRepository.findByUserIdAndDateBetween(userId, startDate, endDate);
+        return planners.stream()
+                .map(planner -> PlannerFlameItem.of(planner.getDate(), planner.isFlame()))
+                .toList();
+    }
 }
