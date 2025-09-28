@@ -16,4 +16,6 @@ public interface PlannerRepository extends JpaRepository<Planner, Long> {
     List<Planner> findByUserIdAndDateBetween(@Param("userId") Long userId,
                                            @Param("startDate") LocalDate startDate,
                                            @Param("endDate") LocalDate endDate);
+
+    boolean existsByUserIdAndDate(Long userId, LocalDate date);
 }

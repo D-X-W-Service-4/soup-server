@@ -32,15 +32,23 @@ public class PlannerService {
     public PlannerResponse createPlanner(Long userId, PlannerCreateRequest request) {
         User user = userService.findById(userId);
 
+         if (plannerRepository.existsByUserIdAndDate(userId, request.date())) {
+             throw new ApiException(PlannerErrorCode.DUPLICATE_PLANNER);
+         }
+
         Planner planner = Planner.builder()
                 .user(user)
                 .date(request.date())
                 .flame(true)
                 .build();
-
         Planner savedPlanner = plannerRepository.save(planner);
 
-        List<PlannerItem> plannerItems = plannerItemRepository.findByPlannerId(savedPlanner.getId());
+        // TODO: aiPlannerClient.generate(date)로 AIPlanResponse 받아서 toPlannerItems로 매핑/저장
+        List<PlannerItem> plannerItems = List.of();
+        if (!plannerItems.isEmpty()) {
+            plannerItemRepository.saveAll(plannerItems);
+        }
+
         List<PlannerItemDto> itemDto = plannerItems.stream()
                 .map(PlannerItemDto::from)
                 .toList();
