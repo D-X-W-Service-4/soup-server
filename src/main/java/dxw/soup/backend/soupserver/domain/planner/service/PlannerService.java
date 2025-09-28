@@ -83,4 +83,15 @@ public class PlannerService {
         return planner;
     }
 
+    public PlannerResponse getPlannerByDate(Long userId, LocalDate date) {
+        Planner planner = plannerRepository.findByUserIdAndDate(userId, date)
+                .orElseThrow(() -> new ApiException(PlannerErrorCode.PLANNER_NOT_FOUND));
+
+        List<PlannerItem> plannerItems = plannerItemRepository.findByPlannerId(planner.getId());
+        List<PlannerItemDto> itemDto = plannerItems.stream()
+                .map(PlannerItemDto::from)
+                .toList();
+
+        return PlannerResponse.from(planner, itemDto);
+    }
 }

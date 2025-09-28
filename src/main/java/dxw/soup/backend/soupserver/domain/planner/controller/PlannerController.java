@@ -59,4 +59,13 @@ public class PlannerController {
         plannerService.updatePlannerItemCheck(principal.getUserId(), plannerItemId, request.checked());
         return ApiResponse.ok();
     }
+
+    @GetMapping
+    public ApiResponse<PlannerResponse> getPlannerByDate(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @RequestParam LocalDate date
+    ) {
+        PlannerResponse response = plannerService.getPlannerByDate(principal.getUserId(), date);
+        return ApiResponse.ok(response);
+    }
 }
