@@ -47,4 +47,21 @@ public class PlannerService {
 
         return PlannerResponse.from(savedPlanner, itemDto);
     }
+
+    @Transactional
+    public void deletePlanner(Long userId, Long plannerId) {
+        Planner planner = findPlannerByIdAndUserId(userId, plannerId);
+        plannerRepository.delete(planner);
+    }
+
+    private Planner findPlannerByIdAndUserId(Long userId, Long plannerId) {
+        Planner planner = plannerRepository.findById(plannerId)
+                .orElseThrow(() -> new ApiException(PlannerErrorCode.PLANNER_NOT_FOUND));
+
+        if (!planner.getUser().getId().equals(userId)) {
+            throw new ApiException(PlannerErrorCode.PLANNER_ACCESS_DENIED);
+        }
+
+        return planner;
+    }
 }

@@ -30,4 +30,13 @@ public class PlannerController {
         PlannerResponse response = plannerService.createPlanner(principal.getUserId(), request);
         return ApiResponse.ok(response);
     }
+
+    @DeleteMapping("/{plannerId}")
+    public ApiResponse<?> deletePlanner(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable Long plannerId
+    ) {
+        plannerService.deletePlanner(principal.getUserId(), plannerId);
+        return ApiResponse.ok();
+    }
 }
