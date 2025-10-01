@@ -4,6 +4,7 @@ import dxw.soup.backend.soupserver.domain.question.entity.SubjectUnit;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
 import dxw.soup.backend.soupserver.domain.user.enums.Grade;
 import dxw.soup.backend.soupserver.domain.user.exception.UserErrorCode;
+import dxw.soup.backend.soupserver.domain.user.repository.UserQuestionRepository;
 import dxw.soup.backend.soupserver.domain.user.repository.UserRepository;
 import dxw.soup.backend.soupserver.global.common.exception.ApiException;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final UserQuestionRepository userQuestionRepository;
 
     public void signUp(Long userId, Grade grade, Integer term, SubjectUnit lastSubjectUnit, Double studyHours, List<String> workbooks) {
         User user = findById(userId);
@@ -33,7 +35,11 @@ public class UserService {
         user.updateNickname(nickname);
     }
 
-    public void getUserInfo() {
+    public long getSolvedQuestionCount(User user) {
+        return userQuestionRepository.countSolvedQuestions(user);
+    }
 
+    public long getStarredQuestionCount(User user) {
+        return userQuestionRepository.countSolvedQuestions(user);
     }
 }

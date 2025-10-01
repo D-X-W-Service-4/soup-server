@@ -41,8 +41,8 @@ public class UserFacade {
     @Transactional(readOnly = true)
     public UserInfoResponse getUserInfo(Long userId) {
         User user = userService.findById(userId);
-        long solvedQuestionCount = userQuestionRepository.countSolvedQuestions(user);
-        long starredQuestionCount = userQuestionRepository.countStarredQuestions(user);
+        long solvedQuestionCount = userService.getSolvedQuestionCount(user);
+        long starredQuestionCount = userService.getStarredQuestionCount(user);
         double plannerAchievementRate =0.0; // 임시값
         int flameRunDateCount =0; // 임시값
         return UserInfoResponse.of(

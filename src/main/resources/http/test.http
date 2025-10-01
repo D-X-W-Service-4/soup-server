@@ -4,7 +4,7 @@ GET http://localhost:8080/health-check
 ### 회원 가입
 POST http://localhost:8080/v1/users/sign-up
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU5MDU4ODQ5LCJleHAiOjE3NjE2NTA4NDksInN1YiI6ImRhZXVuMXEydzNlQGdtYWlsLmNvbSIsImlkIjoxfQ.ILfyTDkOCcJ0-h7E97_R8cxsuxTimrGyvaQBmeOFhwg
+Authorization: Bearer
 
 {
   "grade": "M1",
@@ -17,7 +17,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1N
 ### 닉네임 변경
 PATCH http://localhost:8080/v1/users/me/nickname
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU5MDU4ODQ5LCJleHAiOjE3NjE2NTA4NDksInN1YiI6ImRhZXVuMXEydzNlQGdtYWlsLmNvbSIsImlkIjoxfQ.ILfyTDkOCcJ0-h7E97_R8cxsuxTimrGyvaQBmeOFhwg
+Authorization: Bearer
 
 {
   "nickname": "정다은"
@@ -25,4 +25,4 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1N
 
 ### 유저 정보 조회
 GET http://localhost:8080/v1/users/me
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU5MDU4ODQ5LCJleHAiOjE3NjE2NTA4NDksInN1YiI6ImRhZXVuMXEydzNlQGdtYWlsLmNvbSIsImlkIjoxfQ.ILfyTDkOCcJ0-h7E97_R8cxsuxTimrGyvaQBmeOFhwg
+Authorization: Bearer
