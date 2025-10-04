@@ -42,4 +42,5 @@ public class UserService {
     public long getStarredQuestionCount(User user) {
         return userQuestionRepository.countSolvedQuestions(user);
     }
+
 }

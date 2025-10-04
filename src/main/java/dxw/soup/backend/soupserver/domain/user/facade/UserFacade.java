@@ -4,6 +4,7 @@ import dxw.soup.backend.soupserver.domain.question.entity.SubjectUnit;
 import dxw.soup.backend.soupserver.domain.question.service.QuestionService;
 import dxw.soup.backend.soupserver.domain.user.dto.request.UserNicknameUpdateRequest;
 import dxw.soup.backend.soupserver.domain.user.dto.request.UserSignupRequest;
+import dxw.soup.backend.soupserver.domain.user.dto.request.UserUpdateRequest;
 import dxw.soup.backend.soupserver.domain.user.dto.response.UserInfoResponse;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
 import dxw.soup.backend.soupserver.domain.user.repository.UserQuestionRepository;
@@ -51,6 +52,17 @@ public class UserFacade {
                 starredQuestionCount,
                 plannerAchievementRate,
                 flameRunDateCount
+        );
+    }
+
+    @Transactional
+    public void updateUserInfo (Long userId, UserUpdateRequest request) {
+        User user = userService.findById(userId);
+
+        user.updateInfo(
+                request.nickname(),
+                request.grade(),
+                request.term()
         );
     }
 

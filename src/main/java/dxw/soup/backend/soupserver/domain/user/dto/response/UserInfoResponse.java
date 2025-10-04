@@ -4,6 +4,8 @@ import dxw.soup.backend.soupserver.domain.question.entity.SubjectUnit;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
 import dxw.soup.backend.soupserver.domain.user.enums.Grade;
 import dxw.soup.backend.soupserver.domain.user.enums.Soup;
+import dxw.soup.backend.soupserver.global.common.entity.BaseTimeEntity;
+
 import java.util.List;
 
 public record UserInfoResponse (
