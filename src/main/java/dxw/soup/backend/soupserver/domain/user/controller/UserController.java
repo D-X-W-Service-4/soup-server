@@ -13,7 +13,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RestApiController("v1/users")
+@RestApiController("/v1/users")
 public class UserController {
     private final UserFacade userFacade;
 
