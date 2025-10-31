@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import dxw.soup.backend.soupserver.global.common.auth.service.TokenProvider;
 import dxw.soup.backend.soupserver.global.common.code.ErrorCode;
 import dxw.soup.backend.soupserver.global.common.code.GlobalErrorCode;
-import dxw.soup.backend.soupserver.global.common.dto.ApiResponse;
+import dxw.soup.backend.soupserver.global.common.dto.CommonResponse;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -62,13 +62,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
         response.addHeader("Content-Type", "application/json; charset=UTF-8");
         response.setStatus(errorCode.getStatus().value());
-        response.getWriter().write(objectMapper.writeValueAsString(ApiResponse.error(errorCode)));
+        response.getWriter().write(objectMapper.writeValueAsString(CommonResponse.error(errorCode)));
         response.getWriter().flush();
     }
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-        String[] excludes = {"/auth/", "/swagger-ui", "/api-docs"};
+        String[] excludes = {"/auth/", "/swagger-ui/", "/v3/api-docs", "/api-docs/"};
         String path = request.getRequestURI();
 
         return Arrays.stream(excludes).anyMatch(path::startsWith);
