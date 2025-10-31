@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
@@ -33,6 +34,9 @@ public class LevelTestQuestion extends BaseTimeEntity {
     @JoinColumn(name = "level_test_id", nullable = false)
     private LevelTest levelTest;
 
+    @Column(name = "question_number", nullable = false)
+    private Integer questionNumber;
+
     @ManyToOne
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
@@ -45,4 +49,14 @@ public class LevelTestQuestion extends BaseTimeEntity {
 
     @Column(name = "descriptive_image_url")
     private String descriptiveImageUrl;
+
+    @Column(name = "is_timeout", nullable = false, columnDefinition = "TINYINT(1)")
+    private boolean isTimeout;
+
+    @Column(name = "essay_type_score")
+    private Integer essayTypeScore;
+
+    @Lob
+    @Column(name = "essay_type_score_text", columnDefinition = "TEXT")
+    private String essayTypeScoreText;
 }
