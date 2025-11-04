@@ -7,10 +7,13 @@ import dxw.soup.backend.soupserver.domain.leveltest.exception.LevelTestErrorCode
 import dxw.soup.backend.soupserver.domain.leveltest.repository.LevelTestQuestionRepository;
 import dxw.soup.backend.soupserver.domain.leveltest.repository.LevelTestRepository;
 import dxw.soup.backend.soupserver.domain.leveltest.repository.LevelTestUnitRepository;
+import dxw.soup.backend.soupserver.domain.question.entity.Question;
 import dxw.soup.backend.soupserver.domain.question.entity.SubjectUnit;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
 import dxw.soup.backend.soupserver.global.common.exception.ApiException;
+import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +41,45 @@ public class LevelTestService {
         return levelTestUnitRepository.findAllByLevelTest(levelTest)
                 .stream().map(LevelTestUnit::getSubjectUnit)
                 .toList();
+    }
+
+    public LevelTest createNewLevelTest(User user) {
+        LevelTest levelTest = LevelTest.builder()
+                .user(user)
+                .build();
+
+        return levelTestRepository.save(levelTest);
+    }
+
+
+    public List<LevelTestUnit> createLevelTestUnits(LevelTest levelTest, List<SubjectUnit> subjectUnits) {
+        List<LevelTestUnit> levelTestUnits = subjectUnits.stream()
+                .map(subjectUnit ->
+                        LevelTestUnit.builder()
+                                .levelTest(levelTest)
+                                .subjectUnit(subjectUnit)
+                                .build()
+                )
+                .toList();
+
+        return levelTestUnitRepository.saveAll(levelTestUnits);
+    }
+
+    public List<LevelTestQuestion> createLevelTestQuestions(LevelTest levelTest, List<Question> questions) {
+        Collections.shuffle(questions);
+
+        AtomicInteger questionNumber = new AtomicInteger(1);
+
+        List<LevelTestQuestion> levelTestQuestions = questions.stream()
+                .map(question ->
+                        LevelTestQuestion.builder()
+                                .levelTest(levelTest)
+                                .question(question)
+                                .questionNumber(questionNumber.getAndIncrement())
+                                .build()
+                )
+                .toList();
+
+        return levelTestQuestionRepository.saveAll(levelTestQuestions);
     }
 }

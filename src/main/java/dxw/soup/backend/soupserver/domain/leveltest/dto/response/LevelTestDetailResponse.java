@@ -13,7 +13,6 @@ public record LevelTestDetailResponse(
         Integer timeLimit,
         Integer totalQuestionCount,
         Integer correctCount,
-        LocalDateTime startedAt,
         LocalDateTime finishedAt,
         Integer score,
         Soup resultSoup,
@@ -28,7 +27,6 @@ public record LevelTestDetailResponse(
                 .timeLimit(levelTest.getTimeLimit())
                 .totalQuestionCount(levelTest.getTotalQuestionCount())
                 .correctCount(levelTest.getCorrectCount())
-                .startedAt(levelTest.getStartedAt())
                 .finishedAt(levelTest.getFinishedAt())
                 .score(levelTest.getScore())
                 .resultSoup(levelTest.getResultSoup())

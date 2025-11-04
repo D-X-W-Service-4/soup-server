@@ -1,11 +1,13 @@
 package dxw.soup.backend.soupserver.domain.leveltest.controller;
 
 import dxw.soup.backend.soupserver.domain.leveltest.dto.request.LevelTestCreateRequest;
+import dxw.soup.backend.soupserver.domain.leveltest.dto.request.LevelTestGradeRequest;
 import dxw.soup.backend.soupserver.domain.leveltest.dto.response.LevelTestDetailResponse;
 import dxw.soup.backend.soupserver.domain.leveltest.dto.response.LevelTestFindAllResponse;
 import dxw.soup.backend.soupserver.domain.leveltest.facade.LevelTestFacade;
 import dxw.soup.backend.soupserver.global.common.annotation.RestApiController;
 import dxw.soup.backend.soupserver.global.common.auth.UserPrincipal;
+import dxw.soup.backend.soupserver.global.common.code.SuccessCode;
 import dxw.soup.backend.soupserver.global.common.dto.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -37,6 +39,15 @@ public class LevelTestController {
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestBody LevelTestCreateRequest request
     ) {
+        return CommonResponse.success(SuccessCode.CREATED, levelTestFacade.createLevelTest(principal.getUserId(), request));
+    }
 
+    @PostMapping("/{levelTestId}/grade")
+    public CommonResponse<LevelTestDetailResponse> gradeLevelTest(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable Long levelTestId,
+            @RequestBody LevelTestGradeRequest request
+    ) {
+        return CommonResponse.ok(levelTestFacade.gradeLevelTest(principal.getUserId(), levelTestId, request));
     }
 }

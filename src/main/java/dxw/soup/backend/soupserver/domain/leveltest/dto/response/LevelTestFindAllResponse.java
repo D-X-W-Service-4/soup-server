@@ -23,7 +23,6 @@ public record LevelTestFindAllResponse(
             Integer correctCount,
             Integer score,
             Soup resultSoup,
-            LocalDateTime startedAt,
             LocalDateTime finishedAt
     ) {
         public static LevelTestDto from(LevelTest levelTest) {
@@ -34,7 +33,6 @@ public record LevelTestFindAllResponse(
                     .correctCount(levelTest.getCorrectCount())
                     .score(levelTest.getScore())
                     .resultSoup(levelTest.getResultSoup())
-                    .startedAt(levelTest.getStartedAt())
                     .finishedAt(levelTest.getFinishedAt())
                     .build();
         }

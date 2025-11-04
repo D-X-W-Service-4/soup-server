@@ -79,3 +79,7 @@ cors:
 service:
   oauth:
     redirect-uri: ${SERVICE_OAUTH_REDIRECT_URI}
+
+external:
+  api-url:
+    model: ${EXTERNAL_API_URL_MODEL}
