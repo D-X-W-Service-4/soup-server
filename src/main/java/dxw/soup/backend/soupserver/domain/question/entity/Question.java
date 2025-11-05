@@ -53,6 +53,6 @@ public class Question {
     private String answer;
 
     @Lob
-    @Column(name = "answer", nullable = false, columnDefinition = "TEXT")
+    @Column(name = "answer_text", nullable = false, columnDefinition = "TEXT")
     private String answerText;
 }
