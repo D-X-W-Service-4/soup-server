@@ -4,7 +4,7 @@ GET http://localhost:8080/health-check
 ### 회원 가입
 POST http://localhost:8080/v1/users/sign-up
 Content-Type: application/json
-Authorization: Bearer 
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
 
 {
   "grade": "M1",
@@ -33,7 +33,44 @@ Content-Type: application/json
 Authorization: Bearer
 
 {
-	"nickname": "황수민",
-	"grade": "M3",
-	"term": 2
+  "nickname": "황수민"
 }
+
+### 플래너 생성
+POST http://localhost:8080/v1/planners
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+
+{
+  "date": "2025-09-28"
+}
+
+### 플래너 삭제
+DELETE http://localhost:8080/v1/planners/1
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+
+### 플래너 피드백 업데이트
+PATCH http://localhost:8080/v1/planners/1/feedback
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+
+{
+  "feedback": "GOOD"
+}
+
+### 플래너 아이템 체크 상태 업데이트
+PATCH http://localhost:8080/v1/planners/items/1/check
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+
+{
+  "checked": true
+}
+
+### 특정 날짜 플래너 조회
+GET http://localhost:8080/v1/planners?date=2025-09-28
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+
+### 플래너 불꽃 조회 (기간별)
+GET http://localhost:8080/v1/planners/flames?startDate=2025-09-01&endDate=2025-09-30
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
