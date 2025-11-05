@@ -1,5 +1,6 @@
 package dxw.soup.backend.soupserver.domain.planner.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import dxw.soup.backend.soupserver.domain.planner.entity.Planner;
 import dxw.soup.backend.soupserver.domain.planner.entity.PlannerItem;
 import com.fasterxml.jackson.annotation.JsonFormat;
