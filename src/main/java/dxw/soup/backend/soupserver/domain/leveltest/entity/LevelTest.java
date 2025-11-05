@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,29 +33,30 @@ public class LevelTest extends BaseTimeEntity {
     @Column(name = "level_test_id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "time_limit", nullable = false)
+    @Column(name = "time_limit")
     private Integer timeLimit;
 
-    @Column(name = "total_question_count", nullable = false)
+    @Column(name = "total_question_count")
     private Integer totalQuestionCount;
 
-    @Column(name = "correct_count", nullable = false)
+    @Column(name = "correct_count")
     private Integer correctCount;
-
-    @Column(name = "started_at")
-    private LocalDateTime startedAt;
 
     @Column(name = "finished_at")
     private LocalDateTime finishedAt;
 
-    @Column(nullable = false)
+    @Column
     private Integer score;
 
-    @Column(nullable = false)
+    @Column
     @Enumerated(EnumType.STRING)
     private Soup resultSoup;
+
+    public void updateTotalQuestionCount(Integer totalQuestionCount) {
+        this.totalQuestionCount = totalQuestionCount;
+    }
 }
