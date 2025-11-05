@@ -1,7 +1,7 @@
 # Dockerfile
 
-# jdk21 Image Start
-FROM openjdk:21
+# jdk17 Image Start
+FROM openjdk:17
 
 # jar 파일 복제
 COPY build/libs/*.jar app.jar
