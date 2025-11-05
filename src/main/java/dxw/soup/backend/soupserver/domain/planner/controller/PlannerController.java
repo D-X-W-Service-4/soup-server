@@ -5,13 +5,12 @@ import dxw.soup.backend.soupserver.domain.planner.dto.request.PlannerFeedbackReq
 import dxw.soup.backend.soupserver.domain.planner.dto.request.PlannerItemCheckRequest;
 import dxw.soup.backend.soupserver.domain.planner.dto.response.PlannerFlameResponse;
 import dxw.soup.backend.soupserver.domain.planner.dto.response.PlannerResponse;
-import dxw.soup.backend.soupserver.domain.planner.service.PlannerService;
+import dxw.soup.backend.soupserver.domain.planner.facade.PlannerFacade;
 import dxw.soup.backend.soupserver.global.common.annotation.RestApiController;
 import dxw.soup.backend.soupserver.global.common.auth.UserPrincipal;
-import dxw.soup.backend.soupserver.global.common.dto.ApiResponse;
+import dxw.soup.backend.soupserver.global.common.dto.CommonResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,62 +19,62 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @RestApiController("v1/planners")
 public class PlannerController {
-    private final PlannerService plannerService;
+    private final PlannerFacade plannerFacade;
 
     @PostMapping
-    public ApiResponse<PlannerResponse> createPlanner(
+    public CommonResponse<PlannerResponse> createPlanner(
             @AuthenticationPrincipal UserPrincipal principal,
             @Valid @RequestBody PlannerCreateRequest request
     ) {
-        PlannerResponse response = plannerService.createPlanner(principal.getUserId(), request);
-        return ApiResponse.ok(response);
+        PlannerResponse response = plannerFacade.createPlanner(principal.getUserId(), request);
+        return CommonResponse.ok(response);
     }
 
     @DeleteMapping("/{plannerId}")
-    public ApiResponse<?> deletePlanner(
+    public CommonResponse<?> deletePlanner(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable Long plannerId
     ) {
-        plannerService.deletePlanner(principal.getUserId(), plannerId);
-        return ApiResponse.ok();
+        plannerFacade.deletePlanner(principal.getUserId(), plannerId);
+        return CommonResponse.ok();
     }
 
     @PatchMapping("/{plannerId}/feedback")
-    public ApiResponse<?> updatePlannerFeedback(
+    public CommonResponse<?> updatePlannerFeedback(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable Long plannerId,
             @Valid @RequestBody PlannerFeedbackRequest request
     ) {
-        plannerService.updateFeedback(principal.getUserId(), plannerId, request.feedback());
-        return ApiResponse.ok();
+        plannerFacade.updatePlannerFeedback(principal.getUserId(), plannerId, request.feedback());
+        return CommonResponse.ok();
     }
 
     @PatchMapping("/items/{plannerItemId}/check")
-    public ApiResponse<?> updatePlannerItemCheck(
+    public CommonResponse<?> updatePlannerItemCheck(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable Long plannerItemId,
             @Valid @RequestBody PlannerItemCheckRequest request
     ) {
-        plannerService.updatePlannerItemCheck(principal.getUserId(), plannerItemId, request.checked());
-        return ApiResponse.ok();
+        plannerFacade.updatePlannerItemCheck(principal.getUserId(), plannerItemId, request.checked());
+        return CommonResponse.ok();
     }
 
     @GetMapping
-    public ApiResponse<PlannerResponse> getPlannerByDate(
+    public CommonResponse<PlannerResponse> getPlannerByDate(
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam LocalDate date
     ) {
-        PlannerResponse response = plannerService.getPlannerByDate(principal.getUserId(), date);
-        return ApiResponse.ok(response);
+        PlannerResponse response = plannerFacade.getPlannerByDate(principal.getUserId(), date);
+        return CommonResponse.ok(response);
     }
 
     @GetMapping("/flames")
-    public ApiResponse<PlannerFlameResponse> getPlannerFlames(
+    public CommonResponse<PlannerFlameResponse> getPlannerFlames(
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam LocalDate startDate,
             @RequestParam LocalDate endDate
     ) {
-        PlannerFlameResponse response = PlannerFlameResponse.of(plannerService.getPlannerFlames(principal.getUserId(), startDate, endDate));
-        return ApiResponse.ok(response);
+        PlannerFlameResponse response = plannerFacade.getPlannerFlames(principal.getUserId(), startDate, endDate);
+        return CommonResponse.ok(response);
     }
 }

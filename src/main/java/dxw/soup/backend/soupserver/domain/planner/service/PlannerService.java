@@ -1,9 +1,6 @@
 package dxw.soup.backend.soupserver.domain.planner.service;
 
 import dxw.soup.backend.soupserver.domain.planner.dto.request.PlannerCreateRequest;
-import dxw.soup.backend.soupserver.domain.planner.dto.response.PlannerFlameItem;
-import dxw.soup.backend.soupserver.domain.planner.dto.response.PlannerItemDto;
-import dxw.soup.backend.soupserver.domain.planner.dto.response.PlannerResponse;
 import dxw.soup.backend.soupserver.domain.planner.entity.Planner;
 import dxw.soup.backend.soupserver.domain.planner.entity.PlannerItem;
 import dxw.soup.backend.soupserver.domain.planner.enums.PlannerFeedback;
@@ -11,7 +8,6 @@ import dxw.soup.backend.soupserver.domain.planner.repository.PlannerItemReposito
 import dxw.soup.backend.soupserver.domain.planner.repository.PlannerRepository;
 import dxw.soup.backend.soupserver.domain.planner.exception.PlannerErrorCode;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
-import dxw.soup.backend.soupserver.domain.user.service.UserService;
 import dxw.soup.backend.soupserver.global.common.exception.ApiException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,87 +22,65 @@ import java.util.List;
 public class PlannerService {
     private final PlannerRepository plannerRepository;
     private final PlannerItemRepository plannerItemRepository;
-    private final UserService userService;
+
+    public Planner findById(Long plannerId) {
+        return plannerRepository.findById(plannerId)
+                .orElseThrow(() -> new ApiException(PlannerErrorCode.PLANNER_NOT_FOUND));
+    }
+
+    public Planner findByUserIdAndDate(Long userId, LocalDate date) {
+        return plannerRepository.findByUserIdAndDate(userId, date)
+                .orElseThrow(() -> new ApiException(PlannerErrorCode.PLANNER_NOT_FOUND));
+    }
+
+    public List<Planner> findByUserIdAndDateBetween(Long userId, LocalDate startDate, LocalDate endDate) {
+        return plannerRepository.findByUserIdAndDateBetween(userId, startDate, endDate);
+    }
+
+    public List<PlannerItem> findItemsByPlannerId(Long plannerId) {
+        return plannerItemRepository.findByPlannerId(plannerId);
+    }
+
+    public PlannerItem findItemById(Long plannerItemId) {
+        return plannerItemRepository.findById(plannerItemId)
+                .orElseThrow(() -> new ApiException(PlannerErrorCode.PLANNER_ITEM_NOT_FOUND));
+    }
 
     @Transactional
-    public PlannerResponse createPlanner(Long userId, PlannerCreateRequest request) {
-        User user = userService.findById(userId);
-
-         if (plannerRepository.existsByUserIdAndDate(userId, request.date())) {
+    public Planner createPlanner(User user, LocalDate date) {
+         if (plannerRepository.existsByUserIdAndDate(user.getId(), date)) {
              throw new ApiException(PlannerErrorCode.DUPLICATE_PLANNER);
          }
 
         Planner planner = Planner.builder()
                 .user(user)
-                .date(request.date())
+                .date(date)
                 .flame(true)
                 .build();
-        Planner savedPlanner = plannerRepository.save(planner);
 
-        // TODO: aiPlannerClient.generate(date)로 AIPlanResponse 받아서 toPlannerItems로 매핑/저장
-        List<PlannerItem> plannerItems = List.of();
-        if (!plannerItems.isEmpty()) {
-            plannerItemRepository.saveAll(plannerItems);
-        }
-
-        List<PlannerItemDto> itemDto = plannerItems.stream()
-                .map(PlannerItemDto::from)
-                .toList();
-
-        return PlannerResponse.from(savedPlanner, itemDto);
+        return plannerRepository.save(planner);
     }
 
     @Transactional
-    public void deletePlanner(Long userId, Long plannerId) {
-        Planner planner = findPlannerByIdAndUserId(userId, plannerId);
+    public List<PlannerItem> createPlannerItems(Planner planner, List<PlannerItem> plannerItems) {
+        if (plannerItems.isEmpty()) {
+            return List.of();
+        }
+        return plannerItemRepository.saveAll(plannerItems);
+    }
+
+    @Transactional
+    public void delete(Planner planner) {
         plannerRepository.delete(planner);
     }
 
     @Transactional
-    public void updateFeedback(Long userId, Long plannerId, PlannerFeedback feedback) {
-        Planner planner = findPlannerByIdAndUserId(userId, plannerId);
+    public void updateFeedback(Planner planner, PlannerFeedback feedback) {
         planner.updateFeedback(feedback);
     }
 
     @Transactional
-    public void updatePlannerItemCheck(Long userId, Long plannerItemId, boolean checked) {
-        PlannerItem plannerItem = plannerItemRepository.findById(plannerItemId)
-                .orElseThrow(() -> new ApiException(PlannerErrorCode.PLANNER_ITEM_NOT_FOUND));
-
-        if (!plannerItem.getPlanner().getUser().getId().equals(userId)) {
-            throw new ApiException(PlannerErrorCode.PLANNER_ACCESS_DENIED);
-        }
-
+    public void updateItemCheck(PlannerItem plannerItem, boolean checked) {
         plannerItem.updateChecked(checked);
-    }
-
-    private Planner findPlannerByIdAndUserId(Long userId, Long plannerId) {
-        Planner planner = plannerRepository.findById(plannerId)
-                .orElseThrow(() -> new ApiException(PlannerErrorCode.PLANNER_NOT_FOUND));
-
-        if (!planner.getUser().getId().equals(userId)) {
-            throw new ApiException(PlannerErrorCode.PLANNER_ACCESS_DENIED);
-        }
-
-        return planner;
-    }
-
-    public PlannerResponse getPlannerByDate(Long userId, LocalDate date) {
-        Planner planner = plannerRepository.findByUserIdAndDate(userId, date)
-                .orElseThrow(() -> new ApiException(PlannerErrorCode.PLANNER_NOT_FOUND));
-
-        List<PlannerItem> plannerItems = plannerItemRepository.findByPlannerId(planner.getId());
-        List<PlannerItemDto> itemDto = plannerItems.stream()
-                .map(PlannerItemDto::from)
-                .toList();
-
-        return PlannerResponse.from(planner, itemDto);
-    }
-
-    public List<PlannerFlameItem> getPlannerFlames(Long userId, LocalDate startDate, LocalDate endDate) {
-        List<Planner> planners = plannerRepository.findByUserIdAndDateBetween(userId, startDate, endDate);
-        return planners.stream()
-                .map(planner -> PlannerFlameItem.of(planner.getDate(), planner.isFlame()))
-                .toList();
     }
 }
