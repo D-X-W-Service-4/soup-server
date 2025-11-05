@@ -28,6 +28,12 @@ public class SecurityConfig {
     @Value("${cors.allowed-origins}")
     private String[] allowedOrigins;
     private static final String[] WHITELIST_PATH = {"/health-check"};
+    private static final String[] SWAGGER_API_PATH = {
+            "/v3/api-docs/**",
+            "/api-docs/**",
+            "/swagger-ui.html",
+            "/swagger-ui/**"
+    };
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
@@ -58,6 +64,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((httpRequests) ->
                         httpRequests
                                 .requestMatchers(WHITELIST_PATH).permitAll()
+                                .requestMatchers(SWAGGER_API_PATH).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
