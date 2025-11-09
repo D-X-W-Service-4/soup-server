@@ -41,16 +41,16 @@ public class LevelTestQuestion extends BaseTimeEntity {
     @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 
-    @Column(name = "is_correct", nullable = false, columnDefinition = "TINYINT(1)")
+    @Column(name = "is_correct", columnDefinition = "TINYINT(1)")
     private boolean isCorrect;
 
-    @Column(name = "user_answer", nullable = false)
+    @Column(name = "user_answer")
     private String userAnswer;
 
     @Column(name = "descriptive_image_url")
     private String descriptiveImageUrl;
 
-    @Column(name = "is_timeout", nullable = false, columnDefinition = "TINYINT(1)")
+    @Column(name = "is_timeout", columnDefinition = "TINYINT(1)")
     private boolean isTimeout;
 
     @Column(name = "essay_type_score")
