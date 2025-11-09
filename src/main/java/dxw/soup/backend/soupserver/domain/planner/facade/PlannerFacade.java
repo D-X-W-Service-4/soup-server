@@ -76,6 +76,12 @@ public class PlannerFacade {
         validatePlannerItemOwner(user, plannerItem);
 
         plannerService.updateItemCheck(plannerItem, checked);
+
+        Planner planner = plannerItem.getPlanner();
+        List<PlannerItem> allItems = plannerService.findItemsByPlannerId(planner.getId());
+        boolean allChecked = allItems.stream().allMatch(PlannerItem::isChecked);
+
+        plannerService.updateFlame(planner, allChecked);
     }
 
     public PlannerResponse getPlannerByDate(Long userId, LocalDate date) {
