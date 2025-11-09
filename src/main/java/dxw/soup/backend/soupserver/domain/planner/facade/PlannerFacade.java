@@ -1,5 +1,9 @@
 package dxw.soup.backend.soupserver.domain.planner.facade;
 
+import dxw.soup.backend.soupserver.domain.model.dto.request.GeneratePlannerRequest;
+import dxw.soup.backend.soupserver.domain.model.dto.response.GeneratePlannerResponse;
+import dxw.soup.backend.soupserver.domain.model.exception.ModelErrorCode;
+import dxw.soup.backend.soupserver.domain.model.external.ModelClient;
 import dxw.soup.backend.soupserver.domain.planner.dto.request.PlannerCreateRequest;
 import dxw.soup.backend.soupserver.domain.planner.dto.response.PlannerFlameItem;
 import dxw.soup.backend.soupserver.domain.planner.dto.response.PlannerFlameResponse;
@@ -13,6 +17,7 @@ import dxw.soup.backend.soupserver.domain.planner.service.PlannerService;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
 import dxw.soup.backend.soupserver.domain.user.service.UserService;
 import dxw.soup.backend.soupserver.global.common.exception.ApiException;
+import java.time.format.DateTimeFormatter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,21 +31,29 @@ import java.util.List;
 public class PlannerFacade {
     private final PlannerService plannerService;
     private final UserService userService;
+    private final ModelClient modelClient;
 
     @Transactional
     public PlannerResponse createPlanner(Long userId, PlannerCreateRequest request) {
         User user = userService.findById(userId);
 
-        //TODO: AI 생성 API 호출
-        // AIPlanResponse aiResponse = modelClient.generatePlan(user.getId(), request.date());
-
         Planner planner = plannerService.createPlanner(user, request.date());
 
-        //TODO: AI 응답으로 플래너 아이템 생성
-        // List<PlannerItem> plannerItems = aiResponse.toPlannerItems(planner);
-        // plannerService.createPlannerItems(planner, plannerItems);
+        GeneratePlannerRequest generatePlannerRequest = GeneratePlannerRequest.of(
+                user.getId(),
+                request.date().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+        );
 
-        List<PlannerItem> plannerItems = plannerService.findItemsByPlannerId(planner.getId());
+        GeneratePlannerResponse modelResponse = modelClient
+                .generatePlanner(generatePlannerRequest)
+                .getBody();
+
+        validateGeneratePlannerResponse(modelResponse);
+
+        List<PlannerItem> plannerItems = modelResponse.toPlannerItems(planner);
+
+        plannerService.createPlannerItems(plannerItems);
+
         List<PlannerItemDto> itemDtos = plannerItems.stream()
                 .map(PlannerItemDto::from)
                 .toList();
@@ -110,6 +123,12 @@ public class PlannerFacade {
     private void validatePlannerItemOwner(User user, PlannerItem plannerItem) {
         if (!plannerItem.getPlanner().getUser().getId().equals(user.getId())) {
             throw new ApiException(PlannerErrorCode.PLANNER_ACCESS_DENIED);
+        }
+    }
+
+    private void validateGeneratePlannerResponse(GeneratePlannerResponse response) {
+        if (response == null) {
+            throw new ApiException(ModelErrorCode.GENERATED_PLANNER_ITEM_IS_EMPTY);
         }
     }
 }

@@ -40,4 +40,8 @@ public class UserQuestion {
 
     @Column(name = "try_count", nullable = false)
     private Integer tryCount;
+
+    public void addTryCount() {
+        this.tryCount++;
+    }
 }

@@ -43,11 +43,12 @@ public class LevelTestController {
     }
 
     @PostMapping("/{levelTestId}/grade")
-    public CommonResponse<LevelTestDetailResponse> gradeLevelTest(
+    public CommonResponse<?> gradeLevelTest(
             @AuthenticationPrincipal UserPrincipal principal,
             @PathVariable Long levelTestId,
             @RequestBody LevelTestGradeRequest request
     ) {
-        return CommonResponse.ok(levelTestFacade.gradeLevelTest(principal.getUserId(), levelTestId, request));
+        levelTestFacade.gradeLevelTest(principal.getUserId(), levelTestId, request);
+        return CommonResponse.ok();
     }
 }

@@ -59,4 +59,16 @@ public class LevelTestQuestion extends BaseTimeEntity {
     @Lob
     @Column(name = "essay_type_score_text", columnDefinition = "TEXT")
     private String essayTypeScoreText;
+
+    public void updateGradeResult(
+            boolean isCorrect,
+            String userAnswer,
+            Integer essayTypeScore,
+            String essayTypeScoreText
+    ) {
+        this.isCorrect = isCorrect;
+        this.userAnswer = userAnswer;
+        this.essayTypeScore = essayTypeScore;
+        this.essayTypeScoreText = essayTypeScoreText;
+    }
 }

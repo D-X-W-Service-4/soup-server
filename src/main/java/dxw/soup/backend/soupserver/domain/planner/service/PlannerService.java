@@ -62,7 +62,7 @@ public class PlannerService {
     }
 
     @Transactional
-    public List<PlannerItem> createPlannerItems(Planner planner, List<PlannerItem> plannerItems) {
+    public List<PlannerItem> createPlannerItems(List<PlannerItem> plannerItems) {
         if (plannerItems.isEmpty()) {
             return List.of();
         }

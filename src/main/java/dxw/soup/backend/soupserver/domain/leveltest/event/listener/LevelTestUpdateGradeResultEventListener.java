@@ -1,0 +1,31 @@
+package dxw.soup.backend.soupserver.domain.leveltest.event.listener;
+
+import dxw.soup.backend.soupserver.domain.leveltest.event.LevelTestUpdateGradeResultEvent;
+import dxw.soup.backend.soupserver.domain.question.entity.Question;
+import dxw.soup.backend.soupserver.domain.question.service.QuestionService;
+import dxw.soup.backend.soupserver.domain.user.entity.User;
+import dxw.soup.backend.soupserver.domain.user.service.UserQuestionService;
+import dxw.soup.backend.soupserver.domain.user.service.UserService;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
+
+@Component
+@RequiredArgsConstructor
+public class LevelTestUpdateGradeResultEventListener {
+    private final UserQuestionService userQuestionService;
+    private final UserService userService;
+    private final QuestionService questionService;
+
+    @Async
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    public void onUpdateGradeResult(LevelTestUpdateGradeResultEvent event) {
+        User user = userService.findById(event.userId());
+        List<Question> questions = questionService.getAllByIds(event.questionIds());
+
+        userQuestionService.createOrUpdateUserQuestionTryCount(user, questions);
+    }
+}

@@ -25,4 +25,8 @@ public class QuestionService {
     public List<Question> getQuestionsBySubjectUnitsAndDifficulty(List<SubjectUnit> subjectUnits, Difficulty difficulty) {
         return questionRepository.findAllBySubjectUnitInAndDifficulty(subjectUnits, difficulty.getMetadata());
     }
+
+    public List<Question> getAllByIds(List<String> questionIds) {
+        return questionRepository.findAllById(questionIds);
+    }
 }
