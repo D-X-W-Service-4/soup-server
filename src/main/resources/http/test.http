@@ -4,7 +4,7 @@ GET http://localhost:8080/health-check
 ### 회원 가입
 POST http://localhost:8080/v1/users/sign-up
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+Authorization: Bearer
 
 {
   "grade": "M1",
