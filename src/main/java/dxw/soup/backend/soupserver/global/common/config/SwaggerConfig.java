@@ -21,9 +21,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
                 version = "v1"
         )
 )
-@EnableWebMvc
 @Configuration
-public class SwaggerConfig implements WebMvcConfigurer {
+public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
