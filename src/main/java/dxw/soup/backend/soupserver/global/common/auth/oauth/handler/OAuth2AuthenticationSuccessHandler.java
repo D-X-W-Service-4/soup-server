@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -35,9 +36,9 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String socialId = oAuth2UserInfo.getSocialId();
         OAuth2Provider provider = oAuth2UserInfo.getProvider();
         String email = oAuth2UserInfo.getEmail();
-        boolean existsByEmail = userRepository.existsByEmail(email);
+        Optional<User> userOptional = userRepository.findByEmail(email);
 
-        if (existsByEmail) {
+        if (userOptional.isPresent() && userOptional.get().getSocialProvider() != provider) {
             getRedirectStrategy().sendRedirect(request, response, getRedirectUrl(oauthRedirectUri, CallbackType.DUPLICATE_EMAIL, null));
             return;
         }
