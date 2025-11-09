@@ -38,4 +38,8 @@ public class PlannerItem {
     private boolean checked;
 
     private Double duration;
+
+    public void updateChecked(boolean checked) {
+        this.checked = checked;
+    }
 }

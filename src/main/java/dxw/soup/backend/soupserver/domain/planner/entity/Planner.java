@@ -44,4 +44,8 @@ public class Planner extends BaseTimeEntity {
 
     @Enumerated(EnumType.STRING)
     private PlannerFeedback feedback;
+
+    public void updateFeedback(PlannerFeedback feedback) {
+        this.feedback = feedback;
+    }
 }
