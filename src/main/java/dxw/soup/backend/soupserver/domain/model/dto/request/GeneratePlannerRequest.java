@@ -6,11 +6,11 @@ import lombok.Builder;
 @Builder
 public record GeneratePlannerRequest(
         @JsonProperty("student_id")
-        Long studentId,
+        String studentId,
 
         String date
 ) {
-    public static GeneratePlannerRequest of(Long studentId, String date) {
+    public static GeneratePlannerRequest of(String studentId, String date) {
         return new GeneratePlannerRequest(studentId, date);
     }
 }

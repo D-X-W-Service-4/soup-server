@@ -40,7 +40,7 @@ public class PlannerFacade {
         Planner planner = plannerService.createPlanner(user, request.date());
 
         GeneratePlannerRequest generatePlannerRequest = GeneratePlannerRequest.of(
-                user.getId(),
+                String.valueOf(user.getId()),
                 request.date().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"))
         );
 
