@@ -7,11 +7,11 @@ Content-Type: application/json
 Authorization: Bearer
 
 {
-  "grade": "M1",
-  "term": 1,
-  "lastSubjectUnitId": 1,
-  "studyHours": 1.0,
-  "workbooks": ["쎈 중등수학 1-1"]
+"grade": "M1",
+"term": 1,
+"lastSubjectUnitId": 1,
+"studyHours": 1.0,
+"workbooks": ["쎈 중등수학 1-1"]
 }
 
 ### 닉네임 변경
@@ -20,7 +20,7 @@ Content-Type: application/json
 Authorization: Bearer
 
 {
-  "nickname": "정다은1"
+  "nickname": "정다은"
 }
 
 ### 유저 정보 조회
@@ -39,7 +39,7 @@ Authorization: Bearer
 ### 플래너 생성
 POST http://localhost:8080/v1/planners
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+Authorization: Bearer
 
 {
   "date": "2025-09-28"
@@ -47,12 +47,12 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1N
 
 ### 플래너 삭제
 DELETE http://localhost:8080/v1/planners/1
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+Authorization: Bearer
 
 ### 플래너 피드백 업데이트
 PATCH http://localhost:8080/v1/planners/1/feedback
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+Authorization: Bearer
 
 {
   "feedback": "GOOD"
@@ -61,7 +61,7 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1N
 ### 플래너 아이템 체크 상태 업데이트
 PATCH http://localhost:8080/v1/planners/items/1/check
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+Authorization: Bearer
 
 {
   "checked": true
@@ -69,8 +69,8 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1N
 
 ### 특정 날짜 플래너 조회
 GET http://localhost:8080/v1/planners?date=2025-09-28
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+Authorization: Bearer
 
 ### 플래너 불꽃 조회 (기간별)
 GET http://localhost:8080/v1/planners/flames?startDate=2025-09-01&endDate=2025-09-30
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ0bmFsczY1NUBrb29rbWluLmFjLmtyIiwiaWF0IjoxNzU3NjQyNjI0LCJleHAiOjE3NjAyMzQ2MjQsInN1YiI6InRuYWxzNjU1QG5hdmVyLmNvbSIsImlkIjoxfQ.RLByL00bsRDeT1LwkGlZc9qtLPBdrtLTjFJlj7zqkAc
+Authorization: Bearer
