@@ -1,5 +1,6 @@
 package dxw.soup.backend.soupserver.domain.user.service;
 
+import dxw.soup.backend.soupserver.domain.leveltest.entity.LevelTestQuestion;
 import dxw.soup.backend.soupserver.domain.question.entity.Question;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
 import dxw.soup.backend.soupserver.domain.user.entity.UserQuestion;
@@ -18,10 +19,11 @@ public class UserQuestionService {
     private final UserQuestionRepository userQuestionRepository;
 
     @Transactional
-    public void createOrUpdateUserQuestionTryCount(User user, List<Question> questions) {
+    public void createOrUpdateUserQuestionByLevelTestQuestions(User user, List<LevelTestQuestion> levelTestQuestions) {
         List<UserQuestion> userQuestions = getAllByUser(user);
 
-        questions.forEach(question -> {
+        levelTestQuestions.forEach(ltq -> {
+            Question question = ltq.getQuestion();
             UserQuestion userQuestion = userQuestions.stream()
                     .filter(uq -> uq.getQuestion().getId().equals(question.getId()))
                     .findFirst()
@@ -29,9 +31,14 @@ public class UserQuestionService {
                             UserQuestion.builder()
                                     .user(user)
                                     .question(question)
+                                    .answeredWrongBefore(false)
                                     .tryCount(0)
                                     .build()
                     );
+
+            if (!ltq.isCorrect()) {
+                userQuestion.updateAnsweredWrongBefore(true);
+            }
 
             userQuestion.addTryCount();
 

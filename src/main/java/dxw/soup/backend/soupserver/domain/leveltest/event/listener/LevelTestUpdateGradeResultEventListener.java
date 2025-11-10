@@ -1,7 +1,9 @@
 package dxw.soup.backend.soupserver.domain.leveltest.event.listener;
 
+import dxw.soup.backend.soupserver.domain.leveltest.entity.LevelTest;
+import dxw.soup.backend.soupserver.domain.leveltest.entity.LevelTestQuestion;
 import dxw.soup.backend.soupserver.domain.leveltest.event.LevelTestUpdateGradeResultEvent;
-import dxw.soup.backend.soupserver.domain.question.entity.Question;
+import dxw.soup.backend.soupserver.domain.leveltest.service.LevelTestService;
 import dxw.soup.backend.soupserver.domain.question.service.QuestionService;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
 import dxw.soup.backend.soupserver.domain.user.service.UserQuestionService;
@@ -18,14 +20,15 @@ import org.springframework.transaction.event.TransactionalEventListener;
 public class LevelTestUpdateGradeResultEventListener {
     private final UserQuestionService userQuestionService;
     private final UserService userService;
-    private final QuestionService questionService;
+    private final LevelTestService levelTestService;
 
     @Async
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void onUpdateGradeResult(LevelTestUpdateGradeResultEvent event) {
         User user = userService.findById(event.userId());
-        List<Question> questions = questionService.getAllByIds(event.questionIds());
+        LevelTest levelTest = levelTestService.findById(event.levelTestId());
+        List<LevelTestQuestion> levelTestQuestions = levelTestService.getAllLevelQuestionsByLevelTest(levelTest);
 
-        userQuestionService.createOrUpdateUserQuestionTryCount(user, questions);
+        userQuestionService.createOrUpdateUserQuestionByLevelTestQuestions(user, levelTestQuestions);
     }
 }

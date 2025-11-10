@@ -202,11 +202,7 @@ public class LevelTestFacade {
                 eventPublisher.publishEvent(
                     new LevelTestUpdateGradeResultEvent(
                         userId,
-                        levelTestId,
-                        levelTestQuestions
-                                .stream()
-                                .map(ltq -> ltq.getQuestion().getId())
-                                .toList()
+                        levelTestId
                     )
                 );
                 log.info("[Async-evaluateLevelTestAsync] 성공. levelTestId: {}, total: {}", levelTestId, results.size());

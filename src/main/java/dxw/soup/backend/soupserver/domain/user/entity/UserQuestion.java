@@ -36,6 +36,9 @@ public class UserQuestion {
     private User user;
 
     @Column(nullable = false, columnDefinition = "TINYINT(1)")
+    private boolean answeredWrongBefore;
+
+    @Column(nullable = false, columnDefinition = "TINYINT(1)")
     private boolean isStarred;
 
     @Column(name = "try_count", nullable = false)
@@ -43,5 +46,9 @@ public class UserQuestion {
 
     public void addTryCount() {
         this.tryCount++;
+    }
+
+    public void updateAnsweredWrongBefore(boolean answeredWrongBefore) {
+        this.answeredWrongBefore = answeredWrongBefore;
     }
 }
