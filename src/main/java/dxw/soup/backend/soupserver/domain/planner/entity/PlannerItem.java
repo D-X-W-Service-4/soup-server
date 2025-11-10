@@ -31,7 +31,7 @@ public class PlannerItem {
     @JoinColumn(name = "planner_id", nullable = false)
     private Planner planner;
 
-    @Column(nullable = false)
+    @Column
     private String content;
 
     @Column(nullable = false, columnDefinition = "TINYINT(1)")

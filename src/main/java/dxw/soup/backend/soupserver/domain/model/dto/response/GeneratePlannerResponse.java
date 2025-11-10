@@ -21,7 +21,7 @@ public record GeneratePlannerResponse(
         return content.stream()
                 .map(plannerContent -> PlannerItem.builder()
                         .planner(planner)
-                        .content(plannerContent.text())
+                        .content(plannerContent.text() != null ? plannerContent.text() : "")
                         .duration(plannerContent.time() != null ? plannerContent.time().doubleValue() : null)
                         .checked(false)
                         .build())
