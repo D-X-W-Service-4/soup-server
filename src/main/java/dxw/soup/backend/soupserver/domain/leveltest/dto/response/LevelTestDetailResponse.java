@@ -30,7 +30,7 @@ public record LevelTestDetailResponse(
         @Schema(description = "최종 점수", example = "80")
         Integer score,
 
-        @Schema(description = "결과 수프 타입", example = "MISO")
+        @Schema(description = "결과 수프 타입", example = "TOMATO")
         Soup resultSoup,
 
         @Schema(description = "문항별 과목 단위 정보 목록")
