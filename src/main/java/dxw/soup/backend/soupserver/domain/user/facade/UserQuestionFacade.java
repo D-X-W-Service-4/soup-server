@@ -17,6 +17,8 @@ public class UserQuestionFacade {
     public QuestionDto getAllQuestions(Long userId, UserQuestionFilter filter, String semester, Long subjectUnitId) {
         User user = userService.findById(userId);
 
+
+
         return null;
     }
 }

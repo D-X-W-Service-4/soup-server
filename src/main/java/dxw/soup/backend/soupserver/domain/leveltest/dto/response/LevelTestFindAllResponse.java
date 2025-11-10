@@ -7,10 +7,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import lombok.Builder;
 
-@Schema(description = "레벨 테스트 전체 조회 응답 DTO")
+@Schema(description = "수준테스트 전체 조회 응답 DTO")
 public record LevelTestFindAllResponse(
 
-        @Schema(description = "레벨 테스트 목록")
+        @Schema(description = "수준테스트 목록")
         List<LevelTestDto> levelTests
 ) {
     public static LevelTestFindAllResponse of(List<LevelTest> levelTests) {
@@ -20,10 +20,10 @@ public record LevelTestFindAllResponse(
     }
 
     @Builder
-    @Schema(description = "레벨 테스트 요약 정보 DTO")
+    @Schema(description = "수준테스트 요약 정보 DTO")
     public record LevelTestDto(
 
-            @Schema(description = "레벨 테스트 ID", example = "15")
+            @Schema(description = "수준테스트 ID", example = "15")
             Long levelTestId,
 
             @Schema(description = "테스트 제한 시간 (분 단위)", example = "30")

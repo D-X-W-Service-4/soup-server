@@ -36,12 +36,9 @@ public class QuestionSet extends BaseTimeEntity {
     @Column(name = "total_question_count", nullable = false)
     private Integer totalQuestionCount;
 
-    @Column(name = "correct_count", nullable = false)
+    @Column(name = "correct_count")
     private Integer correctCount;
 
-    @Column(name = "started_at", nullable = false)
-    private LocalDateTime startedAt;
-
-    @Column(name = "finished_at", nullable = false)
+    @Column(name = "finished_at")
     private LocalDateTime finishedAt;
 }

@@ -9,10 +9,10 @@ import java.util.List;
 import lombok.Builder;
 
 @Builder
-@Schema(description = "레벨 테스트 상세 응답 DTO")
+@Schema(description = "수준테스트 상세 응답 DTO")
 public record LevelTestDetailResponse(
 
-        @Schema(description = "레벨 테스트 ID", example = "42")
+        @Schema(description = "수준테스트 ID", example = "42")
         Long levelTestId,
 
         @Schema(description = "테스트 제한 시간 (분 단위)", example = "30")
@@ -33,10 +33,10 @@ public record LevelTestDetailResponse(
         @Schema(description = "결과 수프 타입", example = "TOMATO")
         Soup resultSoup,
 
-        @Schema(description = "문항별 과목 단위 정보 목록")
+        @Schema(description = "과목 단위 정보 목록")
         List<SubjectUnitDto> subjectUnits,
 
-        @Schema(description = "레벨 테스트 문항 정보 목록")
+        @Schema(description = "수준테스트 문항 정보 목록")
         List<LevelTestQuestionDto> levelTestQuestions,
 
         @Schema(description = "테스트 생성 시각", example = "2025-11-10T09:00:00")

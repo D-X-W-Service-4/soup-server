@@ -6,10 +6,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 @Builder
-@Schema(description = "레벨 테스트 문항 응답 DTO")
+@Schema(description = "수준테스트 문항 응답 DTO")
 public record LevelTestQuestionDto(
 
-        @Schema(description = "레벨 테스트 문항 ID", example = "101")
+        @Schema(description = "수준테스트 문항 ID", example = "101")
         Long levelTestQuestionId,
 
         @Schema(description = "문항 번호 (순서)", example = "3")
