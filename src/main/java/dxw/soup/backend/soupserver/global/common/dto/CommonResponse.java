@@ -4,11 +4,16 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import dxw.soup.backend.soupserver.global.common.code.ErrorCode;
 import dxw.soup.backend.soupserver.global.common.code.GlobalErrorCode;
 import dxw.soup.backend.soupserver.global.common.code.SuccessCode;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.HttpStatus;
 
+@Schema(description = "공통 응답 DTO")
 public record CommonResponse<T>(
+        @Schema(description = "HTTP 응답 코드", example = "200")
         int status,
+        @Schema(description = "에러/성공 코드", example = "SUCCESS")
         String code,
+        @Schema(description = "에러 발생 시 메시지", example = "요청에 성공했습니다.")
         String message,
         @JsonInclude(value = JsonInclude.Include.NON_NULL)
         T data
