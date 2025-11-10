@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 
 @RequiredArgsConstructor
-@RestApiController("v1/planners")
-public class PlannerController {
+@RestApiController("/v1/planners")
+public class PlannerController implements PlannerApi {
     private final PlannerFacade plannerFacade;
 
     @PostMapping

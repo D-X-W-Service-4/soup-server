@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestApiController("/v1/users")
-public class UserController {
+public class UserController implements UserApi {
     private final UserFacade userFacade;
 
     @PostMapping("/sign-up")

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @RequiredArgsConstructor
 @RestApiController("/v1/level-tests")
-public class LevelTestController {
+public class LevelTestController implements LevelTestApi {
     private final LevelTestFacade levelTestFacade;
 
     @GetMapping
