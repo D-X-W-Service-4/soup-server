@@ -48,4 +48,8 @@ public class Planner extends BaseTimeEntity {
     public void updateFeedback(PlannerFeedback feedback) {
         this.feedback = feedback;
     }
+
+    public void updateFlame(boolean flame) {
+        this.flame = flame;
+    }
 }

@@ -83,4 +83,9 @@ public class PlannerService {
     public void updateItemCheck(PlannerItem plannerItem, boolean checked) {
         plannerItem.updateChecked(checked);
     }
+
+    @Transactional
+    public void updateFlame(Planner planner, boolean flame) {
+        planner.updateFlame(flame);
+    }
 }
