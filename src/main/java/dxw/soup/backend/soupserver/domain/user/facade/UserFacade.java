@@ -1,5 +1,7 @@
 package dxw.soup.backend.soupserver.domain.user.facade;
 
+import dxw.soup.backend.soupserver.domain.planner.entity.Planner;
+import dxw.soup.backend.soupserver.domain.planner.service.PlannerService;
 import dxw.soup.backend.soupserver.domain.question.entity.SubjectUnit;
 import dxw.soup.backend.soupserver.domain.question.service.QuestionService;
 import dxw.soup.backend.soupserver.domain.user.dto.request.UserNicknameUpdateRequest;
@@ -9,6 +11,7 @@ import dxw.soup.backend.soupserver.domain.user.dto.response.UserInfoResponse;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
 import dxw.soup.backend.soupserver.domain.user.repository.UserQuestionRepository;
 import dxw.soup.backend.soupserver.domain.user.service.UserService;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +22,7 @@ public class UserFacade {
     private final UserService userService;
     private final QuestionService questionService;
     private final UserQuestionRepository userQuestionRepository;
+    private final PlannerService plannerService;
 
     @Transactional
     public void signUp(Long userId, UserSignupRequest request) {
@@ -44,8 +48,10 @@ public class UserFacade {
         User user = userService.findById(userId);
         long solvedQuestionCount = userService.getSolvedQuestionCount(user);
         long starredQuestionCount = userService.getStarredQuestionCount(user);
-        double plannerAchievementRate =0.0; // 임시값
-        int flameRunDateCount =0; // 임시값
+        Planner planner = plannerService.findByUserIdAndDate(user.getId(), LocalDate.now());
+        double plannerAchievementRate = plannerService.getAchievementRate(planner);
+        int flameRunDateCount = user.getFlameRunDateCount();
+
         return UserInfoResponse.of(
                 user,
                 solvedQuestionCount,

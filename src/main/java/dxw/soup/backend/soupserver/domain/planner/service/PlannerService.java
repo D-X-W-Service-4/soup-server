@@ -92,4 +92,11 @@ public class PlannerService {
     public List<Planner> findAllByDate(LocalDate date) {
         return plannerRepository.findAllByDate(date);
     }
+
+    public double getAchievementRate(Planner planner) {
+        List<PlannerItem> plannerItems = findItemsByPlannerId(planner.getId());
+        return (double) plannerItems.stream()
+                .filter(PlannerItem::isChecked)
+                .count() / (double) plannerItems.size();
+    }
 }
