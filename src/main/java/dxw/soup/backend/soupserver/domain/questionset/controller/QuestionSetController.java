@@ -1,6 +1,7 @@
 package dxw.soup.backend.soupserver.domain.questionset.controller;
 
 import dxw.soup.backend.soupserver.domain.questionset.dto.request.QuestionSetCreateRequest;
+import dxw.soup.backend.soupserver.domain.questionset.dto.request.QuestionSetGradeRequest;
 import dxw.soup.backend.soupserver.domain.questionset.dto.response.QuestionSetDetailResponse;
 import dxw.soup.backend.soupserver.domain.questionset.dto.response.QuestionSetFindAllResponse;
 import dxw.soup.backend.soupserver.domain.questionset.facade.QuestionSetFacade;
@@ -46,9 +47,10 @@ public class QuestionSetController implements QuestionSetApi {
     @PostMapping("/{questionSetId}/grade")
     public CommonResponse<?> gradeQuestionSet(
             @AuthenticationPrincipal UserPrincipal principal,
-            @PathVariable Long questionSetId
+            @PathVariable Long questionSetId,
+            @RequestBody QuestionSetGradeRequest request
     ) {
-        //TODO: 문제풀이 채점 API 구현
+        questionSetFacade.gradeQuestionSet(principal.getUserId(), questionSetId, request);
         return CommonResponse.ok();
     }
 }

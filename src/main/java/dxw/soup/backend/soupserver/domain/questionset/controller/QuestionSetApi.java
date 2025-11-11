@@ -1,6 +1,7 @@
 package dxw.soup.backend.soupserver.domain.questionset.controller;
 
 import dxw.soup.backend.soupserver.domain.questionset.dto.request.QuestionSetCreateRequest;
+import dxw.soup.backend.soupserver.domain.questionset.dto.request.QuestionSetGradeRequest;
 import dxw.soup.backend.soupserver.domain.questionset.dto.response.QuestionSetDetailResponse;
 import dxw.soup.backend.soupserver.domain.questionset.dto.response.QuestionSetFindAllResponse;
 import dxw.soup.backend.soupserver.global.common.auth.UserPrincipal;
@@ -48,6 +49,7 @@ public interface QuestionSetApi {
     })
     CommonResponse<?> gradeQuestionSet(
             @AuthenticationPrincipal UserPrincipal principal,
-            @PathVariable Long questionSetId
+            @PathVariable Long questionSetId,
+            @RequestBody QuestionSetGradeRequest request
     );
 }
