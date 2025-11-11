@@ -12,7 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@Tag(name = "사용자 문제 조회")
+@Tag(name = "문제 조회")
 public interface UserQuestionApi {
 
     @Operation(summary = "사용자가 풀었던 문제 전체 조회")
