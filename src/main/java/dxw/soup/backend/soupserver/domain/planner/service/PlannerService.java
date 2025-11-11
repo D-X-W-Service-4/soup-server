@@ -55,7 +55,7 @@ public class PlannerService {
         Planner planner = Planner.builder()
                 .user(user)
                 .date(date)
-                .flame(true)
+                .flame(false)
                 .build();
 
         return plannerRepository.save(planner);
