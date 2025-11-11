@@ -22,6 +22,9 @@ public class PlannerFlameScheduler {
         //매일 0시에 플래너 확인 후 flame이면 user의 lastFlameDate 어제 날짜로 업데이트하고,
         //아니라면 -> 사용자의 flameRunDateCount 0으로 초기화
         LocalDate yesterday = LocalDate.now().minusDays(1);
+
+        log.info("플래너 불꽃 스케쥴러 시작 {}", yesterday);
+
         List<Planner> planners = plannerService.findAllByDate(yesterday);
 
         planners.forEach(planner -> {
@@ -34,6 +37,10 @@ public class PlannerFlameScheduler {
             } else {
                 user.resetFlameRunDateCount();
             }
+
+            log.info("사용자 플래너 불꽃 상태 업데이트 완료 userNickname={}, plannerId={}", user.getNickname(), planner.getId());
         });
+
+        log.info("플래너 불꽃 스케쥴러 종료");
     }
 }
