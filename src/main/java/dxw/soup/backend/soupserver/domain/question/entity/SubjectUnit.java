@@ -34,6 +34,9 @@ public class SubjectUnit {
     @Column(nullable = false)
     private Grade grade;
 
+    @Column(nullable = false)
+    private Integer term;
+
     @Column(name = "unit_number", nullable = false)
     private String unitNumber;
 }

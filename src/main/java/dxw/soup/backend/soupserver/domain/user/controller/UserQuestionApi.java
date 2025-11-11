@@ -3,26 +3,27 @@ package dxw.soup.backend.soupserver.domain.user.controller;
 import dxw.soup.backend.soupserver.domain.user.dto.response.UserQuestionFindAllResponse;
 import dxw.soup.backend.soupserver.domain.user.enums.Grade;
 import dxw.soup.backend.soupserver.domain.user.enums.UserQuestionFilter;
-import dxw.soup.backend.soupserver.domain.user.facade.UserQuestionFacade;
-import dxw.soup.backend.soupserver.global.common.annotation.RestApiController;
 import dxw.soup.backend.soupserver.global.common.auth.UserPrincipal;
 import dxw.soup.backend.soupserver.global.common.dto.CommonResponse;
-import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@RestApiController("/v1/questions")
-@RequiredArgsConstructor
-public class UserQuestionController implements UserQuestionApi {
-    private final UserQuestionFacade userQuestionFacade;
+@Tag(name = "사용자 문제 조회")
+public interface UserQuestionApi {
 
-    public CommonResponse<UserQuestionFindAllResponse> getAllQuestions(
+    @Operation(summary = "사용자가 풀었던 문제 전체 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공"),
+    })
+    CommonResponse<UserQuestionFindAllResponse> getAllQuestions(
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam(required = false) UserQuestionFilter filter,
             @RequestParam(required = false) Grade grade,
             @RequestParam(required = false) Integer term,
             @RequestParam(required = false) Long subjectUnitId
-    ) {
-        return CommonResponse.ok(userQuestionFacade.getAllQuestions(principal.getUserId(), filter, grade, term, subjectUnitId));
-    }
+    );
 }
