@@ -95,6 +95,10 @@ public class PlannerFacade {
         boolean allChecked = allItems.stream().allMatch(PlannerItem::isChecked);
 
         plannerService.updateFlame(planner, allChecked);
+
+        if (allChecked) {
+
+        }
     }
 
     public PlannerResponse getPlannerByDate(Long userId, LocalDate date) {

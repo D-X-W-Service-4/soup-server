@@ -88,4 +88,8 @@ public class PlannerService {
     public void updateFlame(Planner planner, boolean flame) {
         planner.updateFlame(flame);
     }
+
+    public List<Planner> findAllByDate(LocalDate date) {
+        return plannerRepository.findAllByDate(date);
+    }
 }

@@ -15,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -64,6 +65,13 @@ public class User extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private Soup soup;
 
+    @Column(name = "last_flame_date")
+    private LocalDate lastFlameDate;
+
+    @Column(name = "flame_run_date_count")
+    private Integer flameRunDateCount;
+
+
     public void register(
             Grade grade,
             Integer term,
@@ -86,5 +94,17 @@ public class User extends BaseTimeEntity {
         this.nickname = nickname;
         this.grade = grade;
         this.term = term;
+    }
+
+    public void updateLastFlameDate(LocalDate date) {
+        this.lastFlameDate = date;
+    }
+
+    public void addFlameRunDateCount() {
+        flameRunDateCount++;
+    }
+
+    public void resetFlameRunDateCount() {
+        flameRunDateCount = 0;
     }
 }

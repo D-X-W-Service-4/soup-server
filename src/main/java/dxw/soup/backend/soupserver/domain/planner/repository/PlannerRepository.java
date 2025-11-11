@@ -18,4 +18,6 @@ public interface PlannerRepository extends JpaRepository<Planner, Long> {
                                            @Param("endDate") LocalDate endDate);
 
     boolean existsByUserIdAndDate(Long userId, LocalDate date);
+
+    List<Planner> findAllByDate(LocalDate date);
 }
