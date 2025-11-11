@@ -2,6 +2,7 @@ package dxw.soup.backend.soupserver.domain.planner.service;
 
 import dxw.soup.backend.soupserver.domain.planner.entity.Planner;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
+import dxw.soup.backend.soupserver.domain.user.enums.Soup;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +38,21 @@ public class PlannerFlameScheduler {
             } else {
                 user.resetFlameRunDateCount();
             }
-
             log.info("사용자 플래너 불꽃 상태 업데이트 완료 userNickname={}, plannerId={}", user.getNickname(), planner.getId());
+
+            updateUserSoup(user);
         });
 
         log.info("플래너 불꽃 스케쥴러 종료");
+    }
+
+    private void updateUserSoup(User user) {
+        int count = user.getFlameRunDateCount();
+        Soup soup = user.getSoup();
+
+        if (soup.getNextSoup() != null && soup.shouldUpgrade(count)) {
+            user.updateSoup(soup.getNextSoup());
+            log.info("사용자 수프 랭킹 업데이트 userNickname={}, soup={}", user.getNickname(), soup.name());
+        }
     }
 }

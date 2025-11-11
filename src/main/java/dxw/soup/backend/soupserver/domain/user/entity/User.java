@@ -107,4 +107,8 @@ public class User extends BaseTimeEntity {
     public void resetFlameRunDateCount() {
         flameRunDateCount = 0;
     }
+
+    public void updateSoup(Soup soup) {
+        this.soup = soup;
+    }
 }
