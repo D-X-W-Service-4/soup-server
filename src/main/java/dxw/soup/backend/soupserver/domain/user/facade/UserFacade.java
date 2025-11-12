@@ -48,7 +48,7 @@ public class UserFacade {
         User user = userService.findById(userId);
         long solvedQuestionCount = userService.getSolvedQuestionCount(user);
         long starredQuestionCount = userService.getStarredQuestionCount(user);
-        Planner planner = plannerService.findByUserIdAndDate(user.getId(), LocalDate.now());
+        Planner planner = plannerService.findByUserIdAndDateOrNull(user.getId(), LocalDate.now());
         double plannerAchievementRate = plannerService.getAchievementRate(planner);
         int flameRunDateCount = user.getFlameRunDateCount();
 

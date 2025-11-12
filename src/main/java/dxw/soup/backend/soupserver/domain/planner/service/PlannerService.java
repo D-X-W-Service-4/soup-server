@@ -33,6 +33,11 @@ public class PlannerService {
                 .orElseThrow(() -> new ApiException(PlannerErrorCode.PLANNER_NOT_FOUND));
     }
 
+    public Planner findByUserIdAndDateOrNull(Long userId, LocalDate date) {
+        return plannerRepository.findByUserIdAndDate(userId, date)
+                .orElse(null);
+    }
+
     public List<Planner> findByUserIdAndDateBetween(Long userId, LocalDate startDate, LocalDate endDate) {
         return plannerRepository.findByUserIdAndDateBetween(userId, startDate, endDate);
     }
@@ -94,6 +99,10 @@ public class PlannerService {
     }
 
     public double getAchievementRate(Planner planner) {
+        if (planner == null) {
+            return 0.0;
+        }
+
         List<PlannerItem> plannerItems = findItemsByPlannerId(planner.getId());
         return (double) plannerItems.stream()
                 .filter(PlannerItem::isChecked)
