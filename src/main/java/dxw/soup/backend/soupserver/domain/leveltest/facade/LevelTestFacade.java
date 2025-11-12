@@ -179,7 +179,7 @@ public class LevelTestFacade {
             List<LevelTestQuestion> levelTestQuestions
     ) {
         CompletableFuture.supplyAsync(() -> {
-            log.info("[Async-evaluateLevelTestAsync] 시작 levelTestId: {}", levelTestId);
+            log.info("[Async-evaluateLevelTestAsync] 시작 levelTestId : {}", levelTestId);
             // modelClient를 통해 채점 요청
             return modelClient.evaluateEssayLevelTest(evaluateRequest)
                     .getBody();
