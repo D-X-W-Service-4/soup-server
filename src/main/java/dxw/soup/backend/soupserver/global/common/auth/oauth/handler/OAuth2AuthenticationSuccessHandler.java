@@ -56,11 +56,7 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
                 });
 
         String accessToken = tokenProvider.generateToken(user, Duration.ofDays(30));
-        CallbackType type = (user.getNickname() == null) ? CallbackType.NEW_USER : CallbackType.SUCCESS;
-
-        if (!levelTestService.existsByUser(user)) {
-            type = CallbackType.NEED_LEVEL_TEST;
-        }
+        CallbackType type = getCallbackType(user);
 
         getRedirectStrategy().sendRedirect(request, response, getRedirectUrl(oauthRedirectUri, type, accessToken));
     }
@@ -74,6 +70,20 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         }
 
         return uriBuilder.build().toUriString();
+    }
+
+    private CallbackType getCallbackType(User user) {
+        CallbackType type = CallbackType.SUCCESS;
+
+        if (!levelTestService.existsByUser(user)) {
+            type = CallbackType.NEED_LEVEL_TEST;
+        }
+
+        if (user.getNickname() == null) {
+            type = CallbackType.NEW_USER;
+        }
+
+        return type;
     }
 
     enum CallbackType {
