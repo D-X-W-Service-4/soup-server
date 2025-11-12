@@ -9,6 +9,7 @@ import dxw.soup.backend.soupserver.global.common.auth.UserPrincipal;
 import dxw.soup.backend.soupserver.global.common.dto.CommonResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestApiController("/v1/questions")
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class UserQuestionController implements UserQuestionApi {
     private final UserQuestionFacade userQuestionFacade;
 
+    @GetMapping
     public CommonResponse<UserQuestionFindAllResponse> getAllQuestions(
             @AuthenticationPrincipal UserPrincipal principal,
             @RequestParam(required = false) UserQuestionFilter filter,
