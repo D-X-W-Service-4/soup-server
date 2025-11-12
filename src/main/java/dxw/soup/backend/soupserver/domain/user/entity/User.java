@@ -68,8 +68,9 @@ public class User extends BaseTimeEntity {
     @Column(name = "last_flame_date")
     private LocalDate lastFlameDate;
 
-    @Column(name = "flame_run_date_count")
-    private Integer flameRunDateCount;
+    @Builder.Default
+    @Column(name = "flame_run_date_count", nullable = false)
+    private Integer flameRunDateCount = 0;
 
 
     public void register(
