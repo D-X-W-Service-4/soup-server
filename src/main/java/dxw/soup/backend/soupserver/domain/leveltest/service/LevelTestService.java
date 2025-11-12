@@ -10,6 +10,7 @@ import dxw.soup.backend.soupserver.domain.leveltest.repository.LevelTestUnitRepo
 import dxw.soup.backend.soupserver.domain.question.entity.Question;
 import dxw.soup.backend.soupserver.domain.question.entity.SubjectUnit;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
+import dxw.soup.backend.soupserver.domain.user.repository.UserRepository;
 import dxw.soup.backend.soupserver.global.common.exception.ApiException;
 import java.util.Collections;
 import java.util.List;
@@ -81,5 +82,9 @@ public class LevelTestService {
                 .toList();
 
         return levelTestQuestionRepository.saveAll(levelTestQuestions);
+    }
+
+    public boolean existsByUser(User user) {
+        return levelTestRepository.existsByUser(user);
     }
 }

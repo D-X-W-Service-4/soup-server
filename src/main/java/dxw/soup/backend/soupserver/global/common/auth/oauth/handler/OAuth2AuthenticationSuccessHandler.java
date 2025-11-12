@@ -1,5 +1,6 @@
 package dxw.soup.backend.soupserver.global.common.auth.oauth.handler;
 
+import dxw.soup.backend.soupserver.domain.leveltest.service.LevelTestService;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
 import dxw.soup.backend.soupserver.domain.user.repository.UserRepository;
 import dxw.soup.backend.soupserver.global.common.auth.UserPrincipal;
@@ -22,6 +23,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private final TokenProvider tokenProvider;
+    private final LevelTestService levelTestService;
 
     @Value("${service.oauth.redirect-uri}")
     private String oauthRedirectUri;
@@ -56,6 +58,10 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
         String accessToken = tokenProvider.generateToken(user, Duration.ofDays(30));
         CallbackType type = (user.getNickname() == null) ? CallbackType.NEW_USER : CallbackType.SUCCESS;
 
+        if (!levelTestService.existsByUser(user)) {
+            type = CallbackType.NEED_LEVEL_TEST;
+        }
+
         getRedirectStrategy().sendRedirect(request, response, getRedirectUrl(oauthRedirectUri, type, accessToken));
     }
 
@@ -71,6 +77,6 @@ public class OAuth2AuthenticationSuccessHandler extends SimpleUrlAuthenticationS
     }
 
     enum CallbackType {
-        SUCCESS, NEW_USER, DUPLICATE_EMAIL
+        SUCCESS, NEW_USER, DUPLICATE_EMAIL, NEED_LEVEL_TEST
     }
 }
