@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserFacade {
     private final UserService userService;
     private final QuestionService questionService;
-    private final UserQuestionRepository userQuestionRepository;
     private final PlannerService plannerService;
 
     @Transactional

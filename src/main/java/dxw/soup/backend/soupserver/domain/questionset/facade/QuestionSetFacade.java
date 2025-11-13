@@ -120,7 +120,8 @@ public class QuestionSetFacade {
                         question.getAnswer(),
                         question.getAnswerText(),
                         questionIdToAnswerMap.get(question.getId()),
-                        question.getTopic()
+                        question.getTopic(),
+                        question.getQuestionFormat()
                 ))
                 .toList();
 
