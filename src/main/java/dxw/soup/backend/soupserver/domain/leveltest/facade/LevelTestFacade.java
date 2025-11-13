@@ -152,9 +152,11 @@ public class LevelTestFacade {
         // answers에서 questionId를 Key로, descriptiveImageUrl을 value로 하는 map 생성
 
         Map<String, String> questionIdToImageUrlMap = new HashMap<>();
+        Map<String, String> questionIdToAnswerMap = new HashMap<>();
 
         request.answers().forEach(a -> {
-            questionIdToImageUrlMap.put(a.questionId(), a.descriptiveImageUrl()); // null OK
+            questionIdToImageUrlMap.put(a.questionId(), a.descriptiveImageUrl());// null OK
+            questionIdToAnswerMap.put(a.questionId(), a.userAnswer());
         });
 
         List<Question> questions = questionService.getAllByIds(new ArrayList<>(questionIdToImageUrlMap.keySet()));
@@ -166,6 +168,7 @@ public class LevelTestFacade {
                         question.getText(),
                         question.getAnswer(),
                         question.getAnswerText(),
+                        questionIdToAnswerMap.get(question.getId()),
                         question.getTopic()
                 ))
                 .toList();

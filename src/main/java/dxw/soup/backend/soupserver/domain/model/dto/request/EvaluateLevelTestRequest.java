@@ -26,6 +26,9 @@ public record EvaluateLevelTestRequest(
             @JsonProperty("answer_text")
             String answerText,
 
+            @JsonProperty("user_answer_text")
+            String userAnswerText,
+
             String topic
     ) {
         public static LevelTestResultItem of(
@@ -33,9 +36,10 @@ public record EvaluateLevelTestRequest(
                 String text,
                 String answer,
                 String answerText,
+                String userAnswerText,
                 String topic
         ) {
-            return new LevelTestResultItem(userAnswerImage, text, answer, answerText, topic);
+            return new LevelTestResultItem(userAnswerImage, text, answer, answerText, userAnswerText, topic);
         }
     }
 }
