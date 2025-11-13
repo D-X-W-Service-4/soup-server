@@ -98,7 +98,7 @@ public class LevelTestFacade {
                     user.getWorkbooks(),
                     subjectUnits.stream()
                             .collect(Collectors.toMap(
-                                    SubjectUnit::getUnitNumber,
+                                    SubjectUnit::getId,
                                     SubjectUnit::getName
                             ))
             );

@@ -13,12 +13,12 @@ public record GenerateLevelTestRequest(
         String workbooks,
 
         @JsonProperty("unit_list")
-        Map<String, String> unitList
+        Map<Long, String> unitList
 ) {
     public static GenerateLevelTestRequest of(
             String soupLevel,
             String workbooks,
-            Map<String, String> unitList
+            Map<Long, String> unitList
     ) {
         return new GenerateLevelTestRequest(soupLevel, workbooks, unitList);
     }
