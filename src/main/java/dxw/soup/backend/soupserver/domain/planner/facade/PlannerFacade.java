@@ -15,16 +15,19 @@ import dxw.soup.backend.soupserver.domain.planner.enums.PlannerFeedback;
 import dxw.soup.backend.soupserver.domain.planner.exception.PlannerErrorCode;
 import dxw.soup.backend.soupserver.domain.planner.service.PlannerService;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
+import dxw.soup.backend.soupserver.domain.user.enums.Soup;
 import dxw.soup.backend.soupserver.domain.user.service.UserService;
 import dxw.soup.backend.soupserver.global.common.exception.ApiException;
 import java.time.format.DateTimeFormatter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -97,7 +100,26 @@ public class PlannerFacade {
         plannerService.updateFlame(planner, allChecked);
 
         if (allChecked) {
+            if (planner.isFlame()) {
+                //flame이면 user의 lastFlameDate 어제 날짜로 업데이트하고,
+                user.updateLastFlameDate(LocalDate.now());
+                user.addFlameRunDateCount();
+            } else {
+                user.resetFlameRunDateCount();
+            }
+            log.info("사용자 플래너 불꽃 상태 업데이트 완료 userNickname={}, plannerId={}", user.getNickname(), planner.getId());
 
+            updateUserSoup(user);
+        }
+    }
+
+    private void updateUserSoup(User user) {
+        int count = user.getFlameRunDateCount();
+        Soup soup = user.getSoup();
+
+        if (soup.getNextSoup() != null && soup.shouldUpgrade(count)) {
+            user.updateSoup(soup.getNextSoup());
+            log.info("사용자 수프 랭킹 업데이트 userNickname={}, soup={}", user.getNickname(), soup.name());
         }
     }
 
