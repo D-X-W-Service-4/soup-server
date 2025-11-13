@@ -64,6 +64,7 @@ public class UserQuestionService {
             userQuestion.addTryCount();
 
             userQuestionRepository.save(userQuestion);
+            log.info("createOrUpdateUserQuestionByLevelTestQuestions userQuestionId={}", userQuestion.getId());
         });
     }
 
