@@ -62,8 +62,10 @@ public class User extends BaseTimeEntity {
     //콤마(,)로 구분
     private String workbooks;
 
+    @Builder.Default
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Soup soup;
+    private Soup soup = Soup.NONE;
 
     @Column(name = "last_flame_date")
     private LocalDate lastFlameDate;

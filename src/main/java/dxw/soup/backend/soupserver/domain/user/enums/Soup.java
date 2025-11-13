@@ -7,7 +7,8 @@ public enum Soup {
     CORN(20, 30, null),
     MUSHROOM(30, 40, null),
     PUMPKIN(40, 50, null),
-    SWEET_POTATO(Integer.MAX_VALUE, Integer.MAX_VALUE, null);
+    SWEET_POTATO(Integer.MAX_VALUE, Integer.MAX_VALUE, null),
+    NONE(0, 10, null);
 
     private final int min;
 
