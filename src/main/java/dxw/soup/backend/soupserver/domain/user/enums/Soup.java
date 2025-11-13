@@ -22,6 +22,7 @@ public enum Soup {
         CORN.nextSoup = MUSHROOM;
         MUSHROOM.nextSoup = PUMPKIN;
         PUMPKIN.nextSoup = SWEET_POTATO;
+        NONE.nextSoup = TOMATO;
     }
 
     Soup(int min, int max, Soup nextSoup) {
