@@ -1,9 +1,11 @@
 package dxw.soup.backend.soupserver.domain.user.repository;
 
+import dxw.soup.backend.soupserver.domain.question.entity.Question;
 import dxw.soup.backend.soupserver.domain.user.entity.UserQuestion;
 import dxw.soup.backend.soupserver.domain.user.enums.Grade;
-import dxw.soup.backend.soupserver.domain.user.enums.UserQuestionFilter;
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
 import org.springframework.data.jpa.repository.Query;
@@ -18,7 +20,7 @@ public interface UserQuestionRepository extends JpaRepository<UserQuestion, Long
     @Query("SELECT COUNT(uq) FROM UserQuestion uq WHERE uq.user = :user AND uq.isStarred = true")
     Long countStarredQuestions(@Param("user") User user);
 
-    List<UserQuestion> findALlByUser(User user);
+    List<UserQuestion> findAllByUser(User user);
 
     @Query("""
         SELECT uq
@@ -43,4 +45,8 @@ public interface UserQuestionRepository extends JpaRepository<UserQuestion, Long
             @Param("term") Integer term,
             @Param("subjectUnitId") Long subjectUnitId
     );
+
+    Optional<UserQuestion> findByUserAndQuestion(User user, Question question);
+
+    List<UserQuestion> findAllByUserAndQuestionIn(User user, List<Question> questions);
 }

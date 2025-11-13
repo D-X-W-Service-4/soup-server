@@ -17,6 +17,11 @@ public class QuestionService {
     private final SubjectUnitRepository subjectUnitRepository;
     private final QuestionRepository questionRepository;
 
+    public Question findById(String questionId) {
+        return questionRepository.findById(questionId)
+                .orElseThrow(() -> new ApiException(QuestionErrorCode.QUESTION_NOT_FOUND));
+    }
+
     public SubjectUnit findSubjectUnitById(Long subjectUnitId) {
         return subjectUnitRepository.findById(subjectUnitId)
                 .orElseThrow(() -> new ApiException(QuestionErrorCode.SUBJECT_UNIT_NOT_FOUND));

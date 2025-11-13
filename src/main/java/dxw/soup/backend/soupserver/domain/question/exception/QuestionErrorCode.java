@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum QuestionErrorCode implements ErrorCode {
+    QUESTION_NOT_FOUND("문제 정보를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     SUBJECT_UNIT_NOT_FOUND("단원 정보를 찾을 수 없습니다.", HttpStatus.NOT_FOUND),
     ;
 

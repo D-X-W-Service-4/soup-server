@@ -51,4 +51,8 @@ public class UserQuestion {
     public void updateAnsweredWrongBefore(boolean answeredWrongBefore) {
         this.answeredWrongBefore = answeredWrongBefore;
     }
+
+    public void updateStarred(boolean starred) {
+        this.isStarred = starred;
+    }
 }

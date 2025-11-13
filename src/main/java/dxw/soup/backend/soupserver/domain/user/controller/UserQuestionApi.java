@@ -1,6 +1,7 @@
 package dxw.soup.backend.soupserver.domain.user.controller;
 
 import dxw.soup.backend.soupserver.domain.user.dto.response.UserQuestionFindAllResponse;
+import dxw.soup.backend.soupserver.domain.user.dto.response.UserQuestionStarFindAllResponse;
 import dxw.soup.backend.soupserver.domain.user.enums.Grade;
 import dxw.soup.backend.soupserver.domain.user.enums.UserQuestionFilter;
 import dxw.soup.backend.soupserver.global.common.auth.UserPrincipal;
@@ -10,6 +11,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Tag(name = "문제 조회")
@@ -25,5 +27,23 @@ public interface UserQuestionApi {
             @RequestParam(required = false) Grade grade,
             @RequestParam(required = false) Integer term,
             @RequestParam(required = false) Long subjectUnitId
+    );
+
+    @Operation(summary = "문제 별표 표시하기")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공"),
+    })
+    CommonResponse<?> starQuestion(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @PathVariable String questionId
+    );
+
+    @Operation(summary = "문제 ID 목록으로 별표 여부 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공"),
+    })
+    CommonResponse<UserQuestionStarFindAllResponse> getQuestionStar(
+            @AuthenticationPrincipal UserPrincipal principal,
+            @RequestParam String[] questionIds
     );
 }

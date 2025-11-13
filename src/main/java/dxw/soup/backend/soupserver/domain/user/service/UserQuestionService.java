@@ -11,7 +11,6 @@ import dxw.soup.backend.soupserver.domain.user.repository.UserQuestionRepository
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +20,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class UserQuestionService {
     private final UserQuestionRepository userQuestionRepository;
+
+    public UserQuestion createUserQuestion(User user, Question question) {
+        return userQuestionRepository.save(UserQuestion.builder()
+                .user(user)
+                .question(question)
+                .answeredWrongBefore(false)
+                .tryCount(0)
+                .build());
+    }
+
+    public List<UserQuestion> findAllByUserAndQuestionIds(User user, List<Question> questions) {
+        return userQuestionRepository.findAllByUserAndQuestionIn(user, questions);
+    }
+
+    public UserQuestion findOrCreateByUserAndQuestion(User user, Question question) {
+        return userQuestionRepository.findByUserAndQuestion(user, question)
+                .orElseGet(() -> createUserQuestion(user, question));
+    }
 
     @Transactional
     public void createOrUpdateUserQuestionByLevelTestQuestions(User user, List<LevelTestQuestion> levelTestQuestions) {
@@ -51,7 +68,7 @@ public class UserQuestionService {
     }
 
     public List<UserQuestion> getAllByUser(User user) {
-        return userQuestionRepository.findALlByUser(user);
+        return userQuestionRepository.findAllByUser(user);
     }
 
     public List<UserQuestion> getAllByFilter(
