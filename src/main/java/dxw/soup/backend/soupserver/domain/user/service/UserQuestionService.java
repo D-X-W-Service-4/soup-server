@@ -53,13 +53,13 @@ public class UserQuestionService {
                             UserQuestion.builder()
                                     .user(user)
                                     .question(question)
-                                    .answeredWrongBefore(false)
+                                    .answeredWrongBefore(!ltq.isCorrect())
                                     .tryCount(0)
                                     .build()
                     );
 
             userQuestion.updateAnsweredWrongBefore(!ltq.isCorrect());
-
+            log.info("createOrUpdateUserQuestionByLevelTestQuestions userQuestionId={}, answeredWrongBefore={}", userQuestion.getId(), userQuestion.isAnsweredWrongBefore());
             userQuestion.addTryCount();
 
             userQuestionRepository.save(userQuestion);
@@ -101,7 +101,6 @@ public class UserQuestionService {
                     );
 
             userQuestion.updateAnsweredWrongBefore(!qsi.isCorrect());
-
             userQuestion.addTryCount();
 
             userQuestionRepository.save(userQuestion);

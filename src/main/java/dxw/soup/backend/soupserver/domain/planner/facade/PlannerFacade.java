@@ -109,17 +109,13 @@ public class PlannerFacade {
             }
             log.info("사용자 플래너 불꽃 상태 업데이트 완료 userNickname={}, plannerId={}", user.getNickname(), planner.getId());
 
-            updateUserSoup(user);
-        }
-    }
+            int count = user.getFlameRunDateCount();
+            Soup soup = user.getSoup();
 
-    private void updateUserSoup(User user) {
-        int count = user.getFlameRunDateCount();
-        Soup soup = user.getSoup();
-
-        if (soup.getNextSoup() != null && soup.shouldUpgrade(count)) {
-            user.updateSoup(soup.getNextSoup());
-            log.info("사용자 수프 랭킹 업데이트 userNickname={}, soup={}", user.getNickname(), soup.name());
+            if (soup.getNextSoup() != null && soup.shouldUpgrade(count)) {
+                user.updateSoup(soup.getNextSoup());
+                log.info("사용자 수프 랭킹 업데이트 userNickname={}, soup={}", user.getNickname(), soup.name());
+            }
         }
     }
 

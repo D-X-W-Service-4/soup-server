@@ -151,7 +151,6 @@ public class QuestionSetFacade {
                 List<EvaluateLevelTestResponse.EvaluationResult> results = evaluateResponse.results();
 
                 int correctCount = 0;
-                int score = 0;
 
                 for (int i = 0; i < Math.min(results.size(), questionSetItems.size()); i++) {
                     EvaluateLevelTestResponse.EvaluationResult result = results.get(i);

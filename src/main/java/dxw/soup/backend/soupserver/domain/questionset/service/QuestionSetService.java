@@ -57,5 +57,6 @@ public class QuestionSetService {
         QuestionSet questionSet = findById(questionSetId);
 
         questionSet.updateGradeResult(correctCount);
+        questionSetRepository.save(questionSet);
     }
 }

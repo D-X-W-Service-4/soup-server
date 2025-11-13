@@ -65,7 +65,7 @@ public class User extends BaseTimeEntity {
     @Builder.Default
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Soup soup = Soup.NONE;
+    private Soup soup = Soup.TOMATO;
 
     @Column(name = "last_flame_date")
     private LocalDate lastFlameDate;
