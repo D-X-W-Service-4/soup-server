@@ -7,7 +7,6 @@ import dxw.soup.backend.soupserver.domain.leveltest.dto.response.LevelTestFindAl
 import dxw.soup.backend.soupserver.domain.leveltest.dto.response.LevelTestQuestionDto;
 import dxw.soup.backend.soupserver.domain.leveltest.entity.LevelTest;
 import dxw.soup.backend.soupserver.domain.leveltest.entity.LevelTestQuestion;
-import dxw.soup.backend.soupserver.domain.leveltest.event.LevelTestUpdateGradeResultEvent;
 import dxw.soup.backend.soupserver.domain.leveltest.exception.LevelTestErrorCode;
 import dxw.soup.backend.soupserver.domain.leveltest.repository.LevelTestQuestionRepository;
 import dxw.soup.backend.soupserver.domain.leveltest.service.LevelTestQuestionSelector;

@@ -22,6 +22,7 @@ import dxw.soup.backend.soupserver.domain.user.entity.User;
 import dxw.soup.backend.soupserver.domain.user.service.UserService;
 import dxw.soup.backend.soupserver.global.common.exception.ApiException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -101,11 +102,13 @@ public class QuestionSetFacade {
         List<QuestionSetItem> questionSetItems = getAllItemsByQuestionSet(questionSet);
 
         // answers에서 questionId를 Key로, descriptiveImageUrl을 value로 하는 map 생성
-        Map<String, String> questionIdToImageUrlMap = request.answers().stream()
-                .collect(Collectors.toMap(
-                        QuestionUserAnswer::questionId,
-                        QuestionUserAnswer::descriptiveImageUrl
-                ));
+        Map<String, String> questionIdToImageUrlMap = new HashMap<>();
+        Map<String, String> questionIdToAnswerMap = new HashMap<>();
+
+        request.answers().forEach(a -> {
+            questionIdToImageUrlMap.put(a.questionId(), a.descriptiveImageUrl());// null OK
+            questionIdToAnswerMap.put(a.questionId(), a.userAnswer());
+        });
 
         List<Question> questions = questionService.getAllByIds(new ArrayList<>(questionIdToImageUrlMap.keySet()));
 
@@ -116,6 +119,7 @@ public class QuestionSetFacade {
                         question.getText(),
                         question.getAnswer(),
                         question.getAnswerText(),
+                        questionIdToAnswerMap.get(question.getId()),
                         question.getTopic()
                 ))
                 .toList();
