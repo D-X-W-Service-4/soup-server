@@ -22,20 +22,20 @@ public record GenerateLevelTestResponse(
             @JsonProperty("question_id")
             String questionId,
 
-            @JsonProperty("question_number")
+            @JsonProperty("question_num")
             Integer questionNumber,
 
             @JsonProperty("question_text")
             String questionText,
 
-            String topic,
-
-            Double time,
+            @JsonProperty("question_format")
+            String questionFormat,
 
             String difficulty,
 
-            @JsonProperty("question_format")
-            String questionFormat
+            String topic,
+
+            Double time
     ) {
     }
 }
