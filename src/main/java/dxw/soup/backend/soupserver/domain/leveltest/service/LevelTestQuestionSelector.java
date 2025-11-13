@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class LevelTestQuestionSelector {
     private final QuestionService questionService;
 
-    private static final int[] QUESTION_COUNT_BY_DIFFICULTY = {3, 10, 7};
+    private static final int[] QUESTION_COUNT_BY_DIFFICULTY = {1, 5, 4};
 
     public List<Question> selectQuestionsBySubjectUnits(List<SubjectUnit> subjectUnits) {
         List<Question> results = new ArrayList<>();
