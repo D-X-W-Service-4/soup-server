@@ -18,6 +18,10 @@ public class SubjectUnitService {
                 .orElseThrow(() -> new ApiException(QuestionErrorCode.SUBJECT_UNIT_NOT_FOUND));
     }
 
+    public SubjectUnit findByIdOrNull(Long subjectUnitId) {
+        return subjectUnitRepository.findById(subjectUnitId).orElse(null);
+    }
+
     public List<SubjectUnit> findAllByIds(List<Long> subjectUnitIds) {
         return subjectUnitRepository.findAllById(subjectUnitIds);
     }
