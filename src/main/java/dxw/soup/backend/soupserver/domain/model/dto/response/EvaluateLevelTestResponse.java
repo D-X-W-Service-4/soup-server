@@ -12,6 +12,7 @@ public record EvaluateLevelTestResponse(
 ) {
     @Builder
     public record EvaluationResult(
+            @JsonProperty("essay_type_score")
             Integer score,
 
             @JsonProperty("user_answer")

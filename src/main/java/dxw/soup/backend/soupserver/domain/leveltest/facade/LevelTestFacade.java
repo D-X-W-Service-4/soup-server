@@ -207,17 +207,20 @@ public class LevelTestFacade {
                     log.info("result.essayTypeScoreText: {}", result.essayTypeScoreText());
                     log.info("result.isCorrect: {}", result.isCorrect());
 
-                    levelTestQuestion.updateGradeResult(
-                            result.isCorrect() != null ? result.isCorrect() : false,
-                            result.userAnswer() != null ? result.userAnswer() : "",
-                            result.score(),
-                            result.essayTypeScoreText()
-                    );
+                    int questionScore = ((result.score() != null) ? result.score() : 0);
 
                     if (result.isCorrect() != null && result.isCorrect()) {
                         correctCount++;
-                        score += result.score();
+                        questionScore = ((result.score() != null) ? result.score() : 5);
+                        score += questionScore;
                     }
+
+                    levelTestQuestion.updateGradeResult(
+                            result.isCorrect() != null ? result.isCorrect() : false,
+                            result.userAnswer() != null ? result.userAnswer() : "",
+                            result.score() != null ? result.score() : questionScore,
+                            result.essayTypeScoreText()
+                    );
 
                     levelTestQuestionRepository.save(levelTestQuestion);
                 }
