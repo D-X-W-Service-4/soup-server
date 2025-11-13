@@ -24,7 +24,7 @@ public class UserQuestionFacade {
 
     public UserQuestionFindAllResponse getAllQuestions(Long userId, UserQuestionFilter filter, Grade grade, Integer term, Long subjectUnitId) {
         User user = userService.findById(userId);
-        SubjectUnit subjectUnit = subjectUnitService.findByIdOrNull(subjectUnitId);
+        SubjectUnit subjectUnit = (subjectUnitId != null) ? subjectUnitService.findById(subjectUnitId) : null;
 
         List<UserQuestionDto> userQuestions = userQuestionService.getAllByFilter(user, filter, grade, term, subjectUnit)
                 .stream()
