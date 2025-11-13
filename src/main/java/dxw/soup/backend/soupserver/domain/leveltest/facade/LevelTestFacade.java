@@ -9,6 +9,7 @@ import dxw.soup.backend.soupserver.domain.leveltest.entity.LevelTest;
 import dxw.soup.backend.soupserver.domain.leveltest.entity.LevelTestQuestion;
 import dxw.soup.backend.soupserver.domain.leveltest.event.LevelTestUpdateGradeResultEvent;
 import dxw.soup.backend.soupserver.domain.leveltest.exception.LevelTestErrorCode;
+import dxw.soup.backend.soupserver.domain.leveltest.repository.LevelTestQuestionRepository;
 import dxw.soup.backend.soupserver.domain.leveltest.service.LevelTestQuestionSelector;
 import dxw.soup.backend.soupserver.domain.leveltest.service.LevelTestService;
 import dxw.soup.backend.soupserver.domain.model.dto.request.EvaluateLevelTestRequest;
@@ -23,6 +24,7 @@ import dxw.soup.backend.soupserver.domain.question.entity.SubjectUnit;
 import dxw.soup.backend.soupserver.domain.question.service.QuestionService;
 import dxw.soup.backend.soupserver.domain.question.service.SubjectUnitService;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
+import dxw.soup.backend.soupserver.domain.user.service.UserQuestionService;
 import dxw.soup.backend.soupserver.domain.user.service.UserService;
 import dxw.soup.backend.soupserver.global.common.exception.ApiException;
 import java.util.ArrayList;
@@ -50,6 +52,8 @@ public class LevelTestFacade {
     private final ModelClient modelClient;
     private final QuestionService questionService;
     private final ApplicationEventPublisher eventPublisher;
+    private final LevelTestQuestionRepository levelTestQuestionRepository;
+    private final UserQuestionService userQuestionService;
 
     public LevelTestFindAllResponse getAllLevelTests(Long userId) {
         User user = userService.findById(userId);
@@ -148,7 +152,7 @@ public class LevelTestFacade {
         // answers에서 questionId를 Key로, descriptiveImageUrl을 value로 하는 map 생성
 
         Map<String, String> questionIdToImageUrlMap = new HashMap<>();
-        
+
         request.answers().forEach(a -> {
             questionIdToImageUrlMap.put(a.questionId(), a.descriptiveImageUrl()); // null OK
         });
@@ -193,20 +197,25 @@ public class LevelTestFacade {
                     EvaluateLevelTestResponse.EvaluationResult result = results.get(i);
                     LevelTestQuestion levelTestQuestion = levelTestQuestions.get(i);
 
+                    log.info("index: {}", i);
+                    log.info("levelTestQuestion Number: {}", levelTestQuestion.getQuestionNumber());
+                    log.info("result.userAnswer: {}", result.userAnswer());
+                    log.info("result.score: {}", result.score());
+                    log.info("result.essayTypeScoreText: {}", result.essayTypeScoreText());
+                    log.info("result.isCorrect: {}", result.isCorrect());
+
                     levelTestQuestion.updateGradeResult(
                             result.isCorrect() != null ? result.isCorrect() : false,
                             result.userAnswer() != null ? result.userAnswer() : "",
                             result.score(),
                             result.essayTypeScoreText()
                     );
+
+                    levelTestQuestionRepository.save(levelTestQuestion);
                 }
 
-                eventPublisher.publishEvent(
-                    new LevelTestUpdateGradeResultEvent(
-                        userId,
-                        levelTestId
-                    )
-                );
+                User user = userService.findById(userId);
+                userQuestionService.createOrUpdateUserQuestionByLevelTestQuestions(user, levelTestQuestions);
                 log.info("[Async-evaluateLevelTestAsync] 성공. levelTestId: {}, total: {}", levelTestId, results.size());
             }
         });
