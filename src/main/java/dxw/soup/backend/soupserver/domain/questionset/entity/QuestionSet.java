@@ -41,4 +41,8 @@ public class QuestionSet extends BaseTimeEntity {
 
     @Column(name = "finished_at")
     private LocalDateTime finishedAt;
+
+    public void updateGradeResult(int correctCount) {
+        this.correctCount = correctCount;
+    }
 }

@@ -3,6 +3,7 @@ package dxw.soup.backend.soupserver.domain.user.service;
 import dxw.soup.backend.soupserver.domain.leveltest.entity.LevelTestQuestion;
 import dxw.soup.backend.soupserver.domain.question.entity.Question;
 import dxw.soup.backend.soupserver.domain.question.entity.SubjectUnit;
+import dxw.soup.backend.soupserver.domain.questionset.entity.QuestionSetItem;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
 import dxw.soup.backend.soupserver.domain.user.entity.UserQuestion;
 import dxw.soup.backend.soupserver.domain.user.enums.Grade;
@@ -79,5 +80,32 @@ public class UserQuestionService {
     ) {
         Long subjectUnitId = (subjectUnit != null) ? subjectUnit.getId() : null;
         return userQuestionRepository.findAllByFilter(user.getId(), (filter != null) ? filter.name() : null, grade, term, subjectUnitId);
+    }
+
+    @Transactional
+    public void createOrUpdateUserQuestionByQuestionSetItems(User user, List<QuestionSetItem> questionSetItems) {
+        List<UserQuestion> userQuestions = getAllByUser(user);
+
+        questionSetItems.forEach(qsi -> {
+            Question question = qsi.getQuestion();
+            UserQuestion userQuestion = userQuestions.stream()
+                    .filter(uq -> uq.getQuestion().getId().equals(question.getId()))
+                    .findFirst()
+                    .orElseGet(() ->
+                            UserQuestion.builder()
+                                    .user(user)
+                                    .question(question)
+                                    .answeredWrongBefore(false)
+                                    .tryCount(0)
+                                    .build()
+                    );
+
+            userQuestion.updateAnsweredWrongBefore(!qsi.isCorrect());
+
+            userQuestion.addTryCount();
+
+            userQuestionRepository.save(userQuestion);
+            log.info("createOrUpdateUserQuestionByQuestionSetItems userQuestionId={}", userQuestion.getId());
+        });
     }
 }

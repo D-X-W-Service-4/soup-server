@@ -19,6 +19,7 @@ import dxw.soup.backend.soupserver.domain.questionset.exception.QuestionSetError
 import dxw.soup.backend.soupserver.domain.questionset.repository.QuestionSetItemRepository;
 import dxw.soup.backend.soupserver.domain.questionset.service.QuestionSetService;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
+import dxw.soup.backend.soupserver.domain.user.service.UserQuestionService;
 import dxw.soup.backend.soupserver.domain.user.service.UserService;
 import dxw.soup.backend.soupserver.global.common.exception.ApiException;
 import java.util.ArrayList;
@@ -45,6 +46,7 @@ public class QuestionSetFacade {
     private final ModelClient modelClient;
     private final ApplicationEventPublisher eventPublisher;
     private final QuestionSetItemRepository questionSetItemRepository;
+    private final UserQuestionService userQuestionService;
 
     @Transactional
     public QuestionSetDetailResponse createQuestionSet(Long userId, QuestionSetCreateRequest request) {
@@ -148,18 +150,31 @@ public class QuestionSetFacade {
             if (evaluateResponse != null && evaluateResponse.results() != null) {
                 List<EvaluateLevelTestResponse.EvaluationResult> results = evaluateResponse.results();
 
+                int correctCount = 0;
+                int score = 0;
+
                 for (int i = 0; i < Math.min(results.size(), questionSetItems.size()); i++) {
                     EvaluateLevelTestResponse.EvaluationResult result = results.get(i);
                     QuestionSetItem questionSetItem = questionSetItems.get(i);
 
+                    if (result.isCorrect() != null && result.isCorrect()) {
+                        correctCount++;
+                    }
+
                     questionSetItem.updateGradeResult(
                             result.isCorrect() != null ? result.isCorrect() : false,
                             result.userAnswer() != null ? result.userAnswer() : "",
-                            result.score(),
+                            result.score() != null ? result.score() : 0,
                             result.essayTypeScoreText()
                     );
+
+                    questionSetItemRepository.save(questionSetItem);
                 }
 
+                questionSetService.updateGradeResult(questionSetId, correctCount);
+                User user = userService.findById(userId);
+
+                userQuestionService.createOrUpdateUserQuestionByQuestionSetItems(user, questionSetItems);
                 log.info("[Async-evaluateLevelTestAsync] 성공. questionSetId: {}, total: {}", questionSetId, results.size());
             }
         });

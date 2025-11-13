@@ -52,4 +52,10 @@ public class QuestionSetService {
     public List<QuestionSetItem> getAllItemsByQuestionSet(QuestionSet questionSet) {
         return questionSetItemRepository.findAllByQuestionSet(questionSet);
     }
+
+    public void updateGradeResult(Long questionSetId, int correctCount) {
+        QuestionSet questionSet = findById(questionSetId);
+
+        questionSet.updateGradeResult(correctCount);
+    }
 }
