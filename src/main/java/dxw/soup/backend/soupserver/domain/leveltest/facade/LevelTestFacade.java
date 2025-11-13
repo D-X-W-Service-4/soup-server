@@ -193,6 +193,9 @@ public class LevelTestFacade {
             if (evaluateResponse != null && evaluateResponse.results() != null) {
                 List<EvaluateLevelTestResponse.EvaluationResult> results = evaluateResponse.results();
 
+                int correctCount = 0;
+                int score = 0;
+
                 for (int i = 0; i < Math.min(results.size(), levelTestQuestions.size()); i++) {
                     EvaluateLevelTestResponse.EvaluationResult result = results.get(i);
                     LevelTestQuestion levelTestQuestion = levelTestQuestions.get(i);
@@ -211,10 +214,17 @@ public class LevelTestFacade {
                             result.essayTypeScoreText()
                     );
 
+                    if (result.isCorrect() != null && result.isCorrect()) {
+                        correctCount++;
+                        score += result.score();
+                    }
+
                     levelTestQuestionRepository.save(levelTestQuestion);
                 }
 
+                levelTestService.updateGradeResult(levelTestId, correctCount, score);
                 User user = userService.findById(userId);
+
                 userQuestionService.createOrUpdateUserQuestionByLevelTestQuestions(user, levelTestQuestions);
                 log.info("[Async-evaluateLevelTestAsync] 성공. levelTestId: {}, total: {}", levelTestId, results.size());
             }

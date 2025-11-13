@@ -59,4 +59,13 @@ public class LevelTest extends BaseTimeEntity {
     public void updateTotalQuestionCount(Integer totalQuestionCount) {
         this.totalQuestionCount = totalQuestionCount;
     }
+
+    public void updateGradeResult(int correctCount, int score) {
+        this.correctCount = correctCount;
+        this.score = score;
+    }
+
+    public void finish(LocalDateTime now) {
+        this.finishedAt = now;
+    }
 }

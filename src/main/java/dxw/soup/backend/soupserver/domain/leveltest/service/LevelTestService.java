@@ -10,13 +10,16 @@ import dxw.soup.backend.soupserver.domain.leveltest.repository.LevelTestUnitRepo
 import dxw.soup.backend.soupserver.domain.question.entity.Question;
 import dxw.soup.backend.soupserver.domain.question.entity.SubjectUnit;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
+import dxw.soup.backend.soupserver.domain.user.enums.Soup;
 import dxw.soup.backend.soupserver.domain.user.repository.UserRepository;
 import dxw.soup.backend.soupserver.global.common.exception.ApiException;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -86,5 +89,14 @@ public class LevelTestService {
 
     public boolean existsByUser(User user) {
         return levelTestRepository.existsByUser(user);
+    }
+
+    @Transactional
+    public void updateGradeResult(Long levelTestId, int correctCount, int score) {
+        LevelTest levelTest = findById(levelTestId);
+
+        levelTest.updateGradeResult(correctCount, score);
+        levelTest.finish(LocalDateTime.now());
+        levelTestRepository.save(levelTest);
     }
 }
