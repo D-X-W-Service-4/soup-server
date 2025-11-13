@@ -33,7 +33,7 @@ public class QuestionSet extends BaseTimeEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "total_question_count", nullable = false)
+    @Column(name = "total_question_count")
     private Integer totalQuestionCount;
 
     @Column(name = "correct_count")
