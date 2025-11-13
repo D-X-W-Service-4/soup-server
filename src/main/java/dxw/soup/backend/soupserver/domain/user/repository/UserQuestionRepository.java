@@ -1,6 +1,5 @@
 package dxw.soup.backend.soupserver.domain.user.repository;
 
-import dxw.soup.backend.soupserver.domain.question.entity.SubjectUnit;
 import dxw.soup.backend.soupserver.domain.user.entity.UserQuestion;
 import dxw.soup.backend.soupserver.domain.user.enums.Grade;
 import dxw.soup.backend.soupserver.domain.user.enums.UserQuestionFilter;
@@ -32,14 +31,14 @@ public interface UserQuestionRepository extends JpaRepository<UserQuestion, Long
           AND (:term IS NULL OR su.term = :term)
           AND (
                 :filter IS NULL
-             OR :filter = dxw.soup.backend.soupserver.domain.user.enums.UserQuestionFilter.ALL
-             OR (:filter = dxw.soup.backend.soupserver.domain.user.enums.UserQuestionFilter.STARRED AND uq.isStarred = true)
-             OR (:filter = dxw.soup.backend.soupserver.domain.user.enums.UserQuestionFilter.INCORRECT AND uq.answeredWrongBefore = true)
+             OR :filter = 'ALL'
+             OR (:filter = 'STARRED' AND uq.isStarred = true)
+             OR (:filter = 'INCORRECT' AND uq.answeredWrongBefore = true)
           )
         """)
     List<UserQuestion> findAllByFilter(
             @Param("userId") Long userId,
-            @Param("filter") UserQuestionFilter filter,
+            @Param("filter") String filter,
             @Param("grade") Grade grade,
             @Param("term") Integer term,
             @Param("subjectUnitId") Long subjectUnitId

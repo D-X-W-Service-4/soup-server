@@ -62,6 +62,6 @@ public class UserQuestionService {
             SubjectUnit subjectUnit
     ) {
         Long subjectUnitId = (subjectUnit != null) ? subjectUnit.getId() : null;
-        return userQuestionRepository.findAllByFilter(user.getId(), filter, grade, term, subjectUnitId);
+        return userQuestionRepository.findAllByFilter(user.getId(), (filter != null) ? filter.name() : null, grade, term, subjectUnitId);
     }
 }
