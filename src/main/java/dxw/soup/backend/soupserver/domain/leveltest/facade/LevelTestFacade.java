@@ -26,6 +26,7 @@ import dxw.soup.backend.soupserver.domain.user.entity.User;
 import dxw.soup.backend.soupserver.domain.user.service.UserService;
 import dxw.soup.backend.soupserver.global.common.exception.ApiException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -145,11 +146,12 @@ public class LevelTestFacade {
         List<LevelTestQuestion> levelTestQuestions = levelTestService.getAllLevelQuestionsByLevelTest(levelTest);
 
         // answers에서 questionId를 Key로, descriptiveImageUrl을 value로 하는 map 생성
-        Map<String, String> questionIdToImageUrlMap = request.answers().stream()
-                .collect(Collectors.toMap(
-                        LevelTestGradeRequest.QuestionUserAnswer::questionId,
-                        LevelTestGradeRequest.QuestionUserAnswer::descriptiveImageUrl
-                ));
+
+        Map<String, String> questionIdToImageUrlMap = new HashMap<>();
+        
+        request.answers().forEach(a -> {
+            questionIdToImageUrlMap.put(a.questionId(), a.descriptiveImageUrl()); // null OK
+        });
 
         List<Question> questions = questionService.getAllByIds(new ArrayList<>(questionIdToImageUrlMap.keySet()));
 
