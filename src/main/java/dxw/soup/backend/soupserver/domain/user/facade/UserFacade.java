@@ -9,6 +9,7 @@ import dxw.soup.backend.soupserver.domain.user.dto.request.UserSignupRequest;
 import dxw.soup.backend.soupserver.domain.user.dto.request.UserUpdateRequest;
 import dxw.soup.backend.soupserver.domain.user.dto.response.UserInfoResponse;
 import dxw.soup.backend.soupserver.domain.user.entity.User;
+import dxw.soup.backend.soupserver.domain.user.enums.Soup;
 import dxw.soup.backend.soupserver.domain.user.repository.UserQuestionRepository;
 import dxw.soup.backend.soupserver.domain.user.service.UserService;
 import java.time.LocalDate;

@@ -160,12 +160,6 @@ public class QuestionSetFacade {
                     );
                 }
 
-                eventPublisher.publishEvent(
-                        new QuestionSetUpdateGradeResultEvent(
-                                userId,
-                                questionSetId
-                        )
-                );
                 log.info("[Async-evaluateLevelTestAsync] 성공. questionSetId: {}, total: {}", questionSetId, results.size());
             }
         });

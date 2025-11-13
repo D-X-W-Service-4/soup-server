@@ -203,13 +203,6 @@ public class LevelTestFacade {
                     EvaluateLevelTestResponse.EvaluationResult result = results.get(i);
                     LevelTestQuestion levelTestQuestion = levelTestQuestions.get(i);
 
-                    log.info("index: {}", i);
-                    log.info("levelTestQuestion Number: {}", levelTestQuestion.getQuestionNumber());
-                    log.info("result.userAnswer: {}", result.userAnswer());
-                    log.info("result.score: {}", result.score());
-                    log.info("result.essayTypeScoreText: {}", result.essayTypeScoreText());
-                    log.info("result.isCorrect: {}", result.isCorrect());
-
                     int questionScore = ((result.score() != null) ? result.score() : 0);
 
                     if (result.isCorrect() != null && result.isCorrect()) {

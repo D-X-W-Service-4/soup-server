@@ -87,6 +87,7 @@ public class User extends BaseTimeEntity {
         this.lastSubjectUnit = lastSubjectUnit;
         this.studyHours = studyHours;
         this.workbooks = workbooks;
+        this.soup = Soup.TOMATO;
     }
 
     public void updateNickname(String nickname) {

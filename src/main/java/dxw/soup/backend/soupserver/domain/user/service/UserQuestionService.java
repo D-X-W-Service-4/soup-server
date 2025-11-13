@@ -57,9 +57,7 @@ public class UserQuestionService {
                                     .build()
                     );
 
-            if (!ltq.isCorrect()) {
-                userQuestion.updateAnsweredWrongBefore(true);
-            }
+            userQuestion.updateAnsweredWrongBefore(!ltq.isCorrect());
 
             userQuestion.addTryCount();
 
