@@ -32,6 +32,6 @@ public enum Soup {
     }
 
     public boolean shouldUpgrade(int count) {
-        return count >= min && count < max;
+        return count >= max;
     }
 }
