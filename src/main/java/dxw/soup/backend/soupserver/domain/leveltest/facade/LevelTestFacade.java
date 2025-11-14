@@ -207,7 +207,7 @@ public class LevelTestFacade {
 
                     if (result.isCorrect() != null && result.isCorrect()) {
                         correctCount++;
-                        questionScore = ((result.score() != null) ? result.score() : 10);
+                        questionScore = ((result.score() != null) ? result.score() : 25);
                         score += questionScore;
                     }
 
